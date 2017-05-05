@@ -319,7 +319,7 @@
         </div>
     </xsl:template>
     <xsl:template match="tei:bibl" mode="record-data">
-        <xsl:sequence select="xhtml:*"/>
+        <xsl:sequence select="xhtml:*|text()"/>
     </xsl:template>
     <!-- first tried to generate cite string in xsl, but then rather moved to xquery, @see resource:cite()
     <xsl:template match="*" mode="cite">
