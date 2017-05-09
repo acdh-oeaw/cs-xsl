@@ -1,11 +1,11 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:exsl="http://exslt.org/common" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
-    xmlns:saxon="http://saxon.sf.net/" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
-    xmlns:cr="http://aac.ac.at/content_repository" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:sru="http://www.loc.gov/zing/srw/"
-    xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cmd="http://www.clarin.eu/cmd/" version="2.0"
-    exclude-result-prefixes="#all">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:saxon="http://saxon.sf.net/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0"
+    xmlns:exsl="http://exslt.org/common" xmlns:cr="http://aac.ac.at/content_repository"
+    xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
+    xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:xhtml="http://www.w3.org/1999/xhtml"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0" exclude-result-prefixes="#all">
     <xd:doc scope="stylesheet">
         <xd:desc>Generate html view of a sru-result-set (eventually in various formats)
                 <xd:p>History: <xd:ul>
@@ -35,6 +35,7 @@
     <xsl:template match="sru:searchRetrieveResponse">
         <div>
             <xsl:apply-templates select="sru:diagnostics"/>
+
             <!--actually we want the header all of the time, no?
                     <xsl:if test="contains($format, 'htmlpage')">
                     <xsl:call-template name="header"/>
@@ -76,7 +77,7 @@
             </span>
             <span class="label"> hits)</span>
             <div class="note">
-                <xsl:for-each select="(sru:echoedSearchRetrieveRequest/* | sru:extraResponseData/*)">
+                <xsl:for-each select="(sru:echoedSearchRetrieveRequest/*|sru:extraResponseData/*)">
                     <span class="label">
                         <xsl:value-of select="name()"/>: </span>
                     <span class="value">
@@ -92,8 +93,11 @@
     <xsl:template match="sru:records" mode="list">
         <xsl:choose>
             <xsl:when test="//fcs:DataView[@type='facets'] != ''">
-                <xsl:for-each-group select="sru:record" group-by=".//fcs:DataView[@type='facets']/text()">
-                    <h4><xsl:value-of select="current-grouping-key()"/></h4>
+                <xsl:for-each-group select="sru:record"
+                    group-by=".//fcs:DataView[@type='facets']/text()">
+                    <h4>
+                        <xsl:value-of select="current-grouping-key()"/>
+                    </h4>
                     <div class="xsl-resource-group">
                         <xsl:for-each select="current-group()">
                             <xsl:apply-templates select="." mode="list"/>
@@ -107,7 +111,8 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template match="sru:record" mode="list">
-        <xsl:variable name="curr_record" select="."/><!--<xsl:variable name="fields">
+        <xsl:variable name="curr_record" select="."/>
+        <!--<xsl:variable name="fields">
             <div>
                 <xsl:apply-templates select="*" mode="record-data"/>
             </div>
@@ -120,38 +125,41 @@
     </xsl:template>
     <xsl:template match="fcs:Resource" mode="record-data">
         <div class="header">
-            <h4><!--<xsl:value-of select=".//sourceDesc/bibl[@type='short']"/>-->
+            <h4>
+                <!--<xsl:value-of select=".//sourceDesc/bibl[@type='short']"/>-->
                 <xsl:call-template name="getTitle"/>
             </h4>
             <xsl:call-template name="links"/>
         </div>
         <!--        <xsl:apply-templates select=".//fcs:DataView[@type='image']" mode="record-data"/>-->
-        <xsl:apply-templates select=".//fcs:DataView[@type = 'image']" mode="record-data">
+        <xsl:apply-templates select=".//fcs:DataView[@type='image']" mode="record-data">
             <xsl:with-param name="linkTo"
-                select="concat($base_url_public, '/', $cr_project, '/get/', @pid)"/>
+                select="concat($base_url_public,'/',$cr_project,'/get/',@pid)"/>
         </xsl:apply-templates>
-        <xsl:apply-templates select=".//fcs:DataView[@type = 'metadata']" mode="record-data"/>
-        <xsl:apply-templates select=".//fcs:DataView[@type = 'cite']" mode="record-data"/>
+        <xsl:apply-templates select=".//fcs:DataView[@type='metadata']" mode="record-data"/>
+        <xsl:apply-templates select=".//fcs:DataView[@type='cite']" mode="record-data"/>
     </xsl:template>
     <xsl:template match="tei:teiHeader" mode="record-data">
         <p>
-            <xsl:apply-templates select=".//tei:sourceDesc/tei:bibl[@type = 'transcript']"
+            <xsl:apply-templates select=".//tei:sourceDesc/tei:bibl[@type='transcript']"
                 mode="record-data"/>
         </p>
         <!--        <xsl:apply-templates select=".//sourceDesc//imprint" mode="record-data"/>-->
         <xsl:apply-templates select=".//tei:sourceDesc//tei:msDesc" mode="record-data"/>
     </xsl:template>
     <xsl:template match="tei:gap" mode="record-data"> [...] </xsl:template>
+
     <!--    <xsl:template match="fcs:DataView[@type='image']" mode="record-data" />-->
     <xsl:template name="links">
         <xsl:variable name="resource-id"
-            select="(.//fcs:Resource/data(@pid), ancestor-or-self::fcs:Resource/data(@pid))[1]"/>
+            select="(.//fcs:Resource/data(@pid),ancestor-or-self::fcs:Resource/data(@pid))[1]"/>
         <xsl:variable name="toc-link">
             <xsl:call-template name="formURL">
                 <xsl:with-param name="action" select="'scan'"/>
                 <xsl:with-param name="format" select="$format"/>
                 <xsl:with-param name="x-context" select="$resource-id"/>
                 <xsl:with-param name="scanClause" select="'fcs.toc'"/>
+                <xsl:with-param name="maximumTerms" select="$maximumTerms"/>
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="md-link-cmdi">
@@ -169,7 +177,8 @@
                 <xsl:with-param name="q" select="$resource-id"/>
             </xsl:call-template>
         </xsl:variable>
-        <div class="links"><!--<span>base_url:<xsl:value-of select="$base_url"/>
+        <div class="links">
+            <!--<span>base_url:<xsl:value-of select="$base_url"/>
             </span>-->
             <a class="link-info" href="#">
                 <xsl:value-of select="utils:dict('About')"/>
@@ -189,7 +198,8 @@
     </xsl:template>
     <xsl:template match="cmd:CMD" mode="record-data">
         <xsl:apply-templates select="cmd:Components/*" mode="record-data"/>
-    </xsl:template>
+        </xsl:template>
+
     <xd:doc>
         <xd:desc>teiHeader like CMDI</xd:desc>
     </xd:doc>
@@ -319,7 +329,15 @@
         </div>
     </xsl:template>
     <xsl:template match="tei:bibl" mode="record-data">
-        <xsl:sequence select="xhtml:*|text()"/>
+        <xsl:choose>
+            <xsl:when test="not(exists(./tei:*))">
+                <!-- preformatted, cite probably -->                
+                <xsl:sequence select="xhtml:*|text()"/>                
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates mode="record-data"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <!-- first tried to generate cite string in xsl, but then rather moved to xquery, @see resource:cite()
     <xsl:template match="*" mode="cite">
