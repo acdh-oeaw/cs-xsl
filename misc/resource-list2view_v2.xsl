@@ -1,11 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
-    xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:saxon="http://saxon.sf.net/"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0"
-    xmlns:exsl="http://exslt.org/common" xmlns:cr="http://aac.ac.at/content_repository"
-    xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/"
-    xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0" exclude-result-prefixes="#all">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:saxon="http://saxon.sf.net/" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:cr="http://aac.ac.at/content_repository" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:cmd="http://www.clarin.eu/cmd/" version="2.0" exclude-result-prefixes="#all">
     <xd:doc scope="stylesheet">
         <xd:desc>Generate html view of a sru-result-set (eventually in various formats)
                 <xd:p>History: <xd:ul>
@@ -19,8 +12,7 @@
         <xd:desc>Note: method="xhtml" is saxon-specific! prevents collapsing empty &lt;script&gt;
             tags, that makes browsers choke</xd:desc>
     </xd:doc>
-    <xsl:output method="xhtml" media-type="text/html" indent="yes" encoding="UTF-8"
-        doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"/>
+    <xsl:output method="xhtml" media-type="text/html" indent="yes" encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"/>
     <xsl:include href="../commons_v2.xsl"/>
     <xsl:include href="../fcs/data2view_v2.xsl"/>
     <xsl:param name="title">
@@ -93,8 +85,7 @@
     <xsl:template match="sru:records" mode="list">
         <xsl:choose>
             <xsl:when test="//fcs:DataView[@type='facets'] != ''">
-                <xsl:for-each-group select="sru:record"
-                    group-by=".//fcs:DataView[@type='facets']/text()">
+                <xsl:for-each-group select="sru:record" group-by=".//fcs:DataView[@type='facets']/text()">
                     <h4>
                         <xsl:value-of select="current-grouping-key()"/>
                     </h4>
@@ -133,16 +124,15 @@
         </div>
         <!--        <xsl:apply-templates select=".//fcs:DataView[@type='image']" mode="record-data"/>-->
         <xsl:apply-templates select=".//fcs:DataView[@type='image']" mode="record-data">
-            <xsl:with-param name="linkTo"
-                select="concat($base_url_public,'/',$cr_project,'/get/',@pid)"/>
+            <xsl:with-param name="resource-pid" select="@pid"/>
+            <xsl:with-param name="linkTo" select="concat($base_url_public,'get/',@pid)"/>
         </xsl:apply-templates>
         <xsl:apply-templates select=".//fcs:DataView[@type='metadata']" mode="record-data"/>
         <xsl:apply-templates select=".//fcs:DataView[@type='cite']" mode="record-data"/>
     </xsl:template>
     <xsl:template match="tei:teiHeader" mode="record-data">
         <p>
-            <xsl:apply-templates select=".//tei:sourceDesc/tei:bibl[@type='transcript']"
-                mode="record-data"/>
+            <xsl:apply-templates select=".//tei:sourceDesc/tei:bibl[@type='transcript']" mode="record-data"/>
         </p>
         <!--        <xsl:apply-templates select=".//sourceDesc//imprint" mode="record-data"/>-->
         <xsl:apply-templates select=".//tei:sourceDesc//tei:msDesc" mode="record-data"/>
@@ -151,8 +141,7 @@
 
     <!--    <xsl:template match="fcs:DataView[@type='image']" mode="record-data" />-->
     <xsl:template name="links">
-        <xsl:variable name="resource-id"
-            select="(.//fcs:Resource/data(@pid),ancestor-or-self::fcs:Resource/data(@pid))[1]"/>
+        <xsl:variable name="resource-id" select="(.//fcs:Resource/data(@pid),ancestor-or-self::fcs:Resource/data(@pid))[1]"/>
         <xsl:variable name="toc-link">
             <xsl:call-template name="formURL">
                 <xsl:with-param name="action" select="'scan'"/>
@@ -216,8 +205,7 @@
         <xd:desc>CMDI media session profile</xd:desc>
     </xd:doc>
     <xsl:template match="cmd:media-session-profile" mode="record-data">
-        <xsl:for-each
-            select="(.//cmd:Content, .//cmd:SubjectLanguages, .//cmd:media-session-actors)">
+        <xsl:for-each select="(.//cmd:Content, .//cmd:SubjectLanguages, .//cmd:media-session-actors)">
             <xsl:apply-templates select="." mode="record-data"/>
         </xsl:for-each>
     </xsl:template>
@@ -227,8 +215,7 @@
                 <xsl:value-of select="cmd:Topic"/>
             </div>
             <div class="xsl additional Content">
-                <xsl:for-each
-                    select="(cmd:Interactivity, cmd:PlanningType, cmd:Involvement, cmd:SocialContext, cmd:EventStructure, cmd:Channel)">
+                <xsl:for-each select="(cmd:Interactivity, cmd:PlanningType, cmd:Involvement, cmd:SocialContext, cmd:EventStructure, cmd:Channel)">
                     <span class="cmd {local-name(.)}">
                         <xsl:value-of select="."/>
                     </span>
@@ -241,10 +228,8 @@
             <h4>
                 <xsl:value-of select="utils:dict(concat(../local-name(), ' ', local-name()))"/>
             </h4>
-            <xsl:apply-templates mode="record-data"
-                select="./cmd:SubjectLanguage[cmd:Dominant[. = true()]]"/>
-            <xsl:apply-templates mode="record-data"
-                select="./cmd:SubjectLanguage[cmd:Dominant[. = false()]]"/>
+            <xsl:apply-templates mode="record-data" select="./cmd:SubjectLanguage[cmd:Dominant[. = true()]]"/>
+            <xsl:apply-templates mode="record-data" select="./cmd:SubjectLanguage[cmd:Dominant[. = false()]]"/>
         </div>
     </xsl:template>
     <xsl:template match="cmd:Dominant | cmd:SourceLanguage" mode="format-xmlelem"/>
@@ -272,14 +257,10 @@
                 <span class="xsl-separator">)</span>
             </h5>
             <xsl:apply-templates select="cmd:Description" mode="record-data"/>
-            <xsl:apply-templates
-                select="* except (cmd:FullName, cmd:Name, cmd:Code, cmd:Description)"
-                mode="format-xmlelem"/>
+            <xsl:apply-templates select="* except (cmd:FullName, cmd:Name, cmd:Code, cmd:Description)" mode="format-xmlelem"/>
         </div>
     </xsl:template>
-    <xsl:template
-        match="cmd:Description[parent::cmd:SubjectLanguage] | cmd:Description[parent::cmd:media-session-actors] | cmd:Description[parent::cmd:media-session-actor]"
-        mode="format-xmlelem" priority="5">
+    <xsl:template match="cmd:Description[parent::cmd:SubjectLanguage] | cmd:Description[parent::cmd:media-session-actors] | cmd:Description[parent::cmd:media-session-actor]" mode="format-xmlelem" priority="5">
         <span class="cmd {../local-name()} {local-name()}">
             <xsl:value-of select="cmd:Description"/>
         </span>

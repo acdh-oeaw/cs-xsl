@@ -1,10 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:kwic="http://clarin.eu/fcs/1.0/kwic"
-    xmlns:cr="http://aac.ac.at/content_repository" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:sru="http://www.loc.gov/zing/srw/"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0"
-    xmlns:exist="http://exist.sourceforge.net/NS/exist"
-    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:exsl="http://exslt.org/common"
-    version="1.0" exclude-result-prefixes="cr kwic xsl tei sru xs fcs exist xd exsl">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:exsl="http://exslt.org/common" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:cr="http://aac.ac.at/content_repository" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:kwic="http://clarin.eu/fcs/1.0/kwic" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" exclude-result-prefixes="cr kwic xsl tei sru xs fcs exist xd exsl">
     <xd:doc scope="stylesheet">
         <xd:desc>Provides more specific handling of sru-result-set recordData <xd:p>History: <xd:ul>
                     <xd:li>2013-04-17: created by: "m": </xd:li>
@@ -64,8 +58,7 @@
             <xd:p>Remove administrative attributes</xd:p>
         </xd:desc>
     </xd:doc>
-    <xsl:template match="@cr:project-id|@cr:resource-pid|@cr:id|@xml:id|@xml:space"
-        mode="format-attr"/>
+    <xsl:template match="@cr:project-id|@cr:resource-pid|@cr:id|@xml:id|@xml:space" mode="format-attr"/>
 
     <!-- kwic match -->
     <xd:doc>
@@ -109,10 +102,8 @@
         <xsl:param name="resource-pid"/>
         <xsl:variable name="resourcefragment-pid" select="parent::fcs:ResourceFragment/@pid"/>
         <!-- don't show full view if, there is kwic, title-view is called separately, and  -->
-        <xsl:if
-            test="not((contains(@type,'full') and parent::*/fcs:DataView[contains(@type, 'kwic')]) or contains(@type, 'title') or contains(@type, 'facs'))">
-            <div class="data-view {@type}" data-resource-pid="{$resource-pid}"
-                data-resourcefragment-pid="{$resourcefragment-pid}">
+        <xsl:if test="not((contains(@type,'full') and parent::*/fcs:DataView[contains(@type, 'kwic')]) or contains(@type, 'title') or contains(@type, 'facs'))">
+            <div class="data-view {@type}" data-resource-pid="{$resource-pid}" data-resourcefragment-pid="{$resourcefragment-pid}">
                 <xsl:call-template name="dataview-full-contents"/>
                 <div class="wrapper {@type}">
                     <xsl:apply-templates mode="record-data"/>
@@ -134,8 +125,7 @@
     <xsl:template match="fcs:DataView[contains(@type, 'xmlescaped')]" mode="record-data">
         <xsl:param name="resource-pid"/>
         <!-- don't show full view if, there is kwic, title-view is called separately, and  -->
-        <xsl:if
-            test="not((contains(@type,'full') and parent::*/fcs:DataView[contains(@type, 'kwic')]) or contains(@type, 'title') or contains(@type, 'facs'))">
+        <xsl:if test="not((contains(@type,'full') and parent::*/fcs:DataView[contains(@type, 'kwic')]) or contains(@type, 'title') or contains(@type, 'facs'))">
             <div class="data-view {@type}" data-resource-pid="{$resource-pid}">
                 <textarea rows="25" cols="80">
                     <xsl:apply-templates mode="record-data"/>
@@ -155,23 +145,24 @@
             </a>
         </div>
     </xsl:template>
-    <xsl:template match="fcs:DataView[@ref][contains(@type, 'facs') or contains(@type, 'image')]"
-        mode="record-data" priority="10">
+    <xsl:template match="fcs:DataView[@ref][contains(@type, 'facs') or contains(@type, 'image')]" mode="record-data" priority="10">
         <xsl:param name="resource-pid"/>
         <xsl:param name="linkTo"/>
         <div class="data-view {@type}" data-resource-pid="{$resource-pid}">
             <xsl:choose>
                 <!-- ends-with in XPath 1.0) see http://stackoverflow.com/questions/11848780/use-ends-with-in-xslt-v1-0 -->
-                <xsl:when
-                    test="substring(@ref, string-length(@ref) - string-length('.m4a') + 1) = '.m4a'">
+                <xsl:when test="substring(@ref, string-length(@ref) - string-length('.m4a') + 1) = '.m4a'">
                     <xsl:call-template name="generateAudioHTMLTags">
                         <xsl:with-param name="ref" select="$linkTo"/>
+                        <xsl:with-param name="resource-pid" select="$resource-pid"/>
                         <xsl:with-param name="sourceType" select="''"/>
                     </xsl:call-template>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:call-template name="generateImg">
                         <xsl:with-param name="ref" select="@ref"/>
+                        <xsl:with-param name="linkTo" select="$linkTo"/>
+                        <xsl:with-param name="resource-pid" select="$resource-pid"/>
                     </xsl:call-template>
                 </xsl:otherwise>
             </xsl:choose>
@@ -184,9 +175,15 @@
         </xd:desc>
     </xd:doc>
     <xsl:template name="generateImg">
+        <xsl:param name="ref" select="@ref"/>
+        <xsl:param name="linkTo" select="''"/>
+        <xsl:param name="resource-pid"/>
         <xsl:choose>
-            <xsl:when test="@ref">
-                <img src="{@ref}" alt="{@ref}"/>
+            <xsl:when test="$ref and $linkTo != ''">
+                <a href="{$linkTo}"><img src="{$ref}" alt="{$ref}"/></a>
+            </xsl:when>
+            <xsl:when test="$ref">
+                <img src="{$ref}" alt="{$ref}"/>
             </xsl:when>
             <xsl:otherwise>
                 <span class="cs-xsl-error">You need to supersede the generateImg template in your
@@ -405,11 +402,9 @@
             </tr>
             <tr>
                 <td>
-                    <xsl:if
-                        test="./@*[not((local-name() = 'id') or (local-name() = 'rend') or (local-name() = 'style'))]">
+                    <xsl:if test="./@*[not((local-name() = 'id') or (local-name() = 'rend') or (local-name() = 'style'))]">
                         <table style="float:left">
-                            <xsl:for-each
-                                select="./@*[not((local-name() = 'id') or (local-name() = 'rend') or (local-name() = 'style'))]">
+                            <xsl:for-each select="./@*[not((local-name() = 'id') or (local-name() = 'rend') or (local-name() = 'style'))]">
                                 <tr>
                                     <td class="label">
                                         <xsl:value-of select="concat('@', name())"/>
