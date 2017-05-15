@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:xhtml="http://www.w3.org/1999/xhtml" version="2.0" exclude-result-prefixes="xs xsl tei sru cmd html exist xd">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0" exclude-result-prefixes="xs xsl tei sru cmd html exist xd">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>Stylesheet for formatting TEI-elements  in teiHeader inside a FCS/SRU-result.</xd:p>
@@ -19,6 +19,10 @@ Also "tei"-elements in CMD namespace to cover for teiHeader CMDI-Profile </xd:p>
         <xsl:variable name="surrogates-ptr" select="(../additional/surrogates/ptr/xs:string(@target), ../tei:additional/tei:surrogates/tei:ptr/xs:string(@target), ../cmd:additional/cmd:surrogates/cmd:ptr/xs:string(@target))[1]"/>
         <div class="msIdentifier">
             <xsl:value-of select="(repository, tei:repository, cmd:repository)[1]"/>
+            <xsl:if test="(collection, tei:collection, cmd:collection)">
+                <xsl:text>, </xsl:text>
+                <xsl:value-of select="(collection, tei:collection, cmd:collection)[1]"/>
+            </xsl:if>
             <xsl:text> (Signatur </xsl:text>
             <xsl:choose>
                 <xsl:when test="exists($surrogates-ptr)">
