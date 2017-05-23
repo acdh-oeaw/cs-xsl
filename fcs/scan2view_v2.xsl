@@ -239,6 +239,15 @@ sample data:
             </xsl:when>
             <xsl:otherwise>
                 <li>
+                    <xsl:choose>                 
+                        <xsl:when test="./sru:extraTermData/sru:terms/sru:term">
+                            <xsl:attribute name="class">xsl-inner</xsl:attribute>
+                        </xsl:when>
+                        <xsl:when test="./following-sibling::sru:term[1]/sru:extraTermData/sru:terms/sru:term">                            
+                            <xsl:attribute name="class">xsl-before-inner</xsl:attribute>                            
+                        </xsl:when>   
+                        <xsl:otherwise/>
+                    </xsl:choose>
                     <xsl:sequence select="$link"/>
                     <xsl:if test="number(sru:numberOfRecords) &gt;= 1">
                         <span class="note" data-content="recordcount">
