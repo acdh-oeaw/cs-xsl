@@ -428,7 +428,7 @@
                 <xsl:with-param name="maximumRecords" select="$maximumRecords"/>
             </xsl:call-template>
         </xsl:variable>
-        <xsl:variable name="next-enabled" select="number($startRecord) + number($maximumRecords) &lt; number($numberOfRecords)"/>
+        <xsl:variable name="next-enabled" select="number($startRecord) + number($maximumRecords) &lt;= number($numberOfRecords)"/>
         <xsl:if test="$numberOfRecords &gt; 0">
             <span class="result-navigation prev-next">
                 <xsl:if test="$prev-enabled">
