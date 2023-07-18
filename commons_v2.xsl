@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:exsl="http://exslt.org/common" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:exsl="http://exslt.org/common"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0">
     <xsl:import href="commons_v1.xsl"/>
     <xd:doc scope="stylesheet">
-        <xd:desc>Generic functions for SRU-result handling
-            <xd:p>History:
-                <xd:ul>
-                    <xd:li>2012-02-04: created by:"vr": Convenience wrapper to commons_v1.xsl in XSLT 2.0</xd:li>
-                    <xd:li>2011-12-04: created by:"vr": Based on cmd_functions.xsl but retrofitted back to 1.0</xd:li>
+        <xd:desc>Generic functions for SRU-result handling <xd:p>History: <xd:ul>
+                    <xd:li>2012-02-04: created by:"vr": Convenience wrapper to commons_v1.xsl in
+                        XSLT 2.0</xd:li>
+                    <xd:li>2011-12-04: created by:"vr": Based on cmd_functions.xsl but retrofitted
+                        back to 1.0</xd:li>
                 </xd:ul>
             </xd:p>
         </xd:desc>
@@ -15,16 +18,23 @@
         <xd:desc>???</xd:desc>
     </xd:doc>
     <xsl:template name="contexts-doc">
-        <xsl:if test="not(doc-available(resolve-uri($contexts_url,$base_url)))">
-            <xsl:message>ERROR: context not available: <xsl:value-of select="resolve-uri($contexts_url,$base_url)"/>
-                base-uri:  <xsl:value-of select="base-uri()"/>
+        <xsl:if test="not(doc-available(resolve-uri($contexts_url, $base_url)))">
+            <xsl:message>ERROR: context not available: <xsl:value-of
+                    select="resolve-uri($contexts_url, $base_url)"/> base-uri: <xsl:value-of
+                    select="base-uri()"/>
             </xsl:message>
         </xsl:if>
-        <xsl:copy-of select="if (doc-available(resolve-uri($contexts_url,$base_url))) then doc(resolve-uri($contexts_url,$base_url)) else ()"/>
+        <xsl:copy-of select="
+                if (doc-available(resolve-uri($contexts_url, $base_url))) then
+                    doc(resolve-uri($contexts_url, $base_url))
+                else
+                    ()"/>
     </xsl:template>
-    
+
     <xsl:template name="html-with-data">
-        <xsl:param name="payload"><xsl:call-template name="continue-root"></xsl:call-template></xsl:param>
+        <xsl:param name="payload">
+            <xsl:call-template name="continue-root"/>
+        </xsl:param>
         <html>
             <head>
                 <xsl:call-template name="html-head"/>
@@ -36,17 +46,20 @@
                     <xsl:value-of select="$title"/>
                 </h1>
                 <xsl:apply-templates select="diagnostics"/>
-                <xsl:sequence select="$payload" />
+                <xsl:sequence select="$payload"/>
             </body>
         </html>
     </xsl:template>
-    
+
     <xd:doc>
-        <xd:desc>Convenience-wrapper to formURL-template
-            shall be usable to form consistently all urls within xsl </xd:desc>
-        <xd:param name="action">See <xd:ref name="formURL" type="template">formURL template</xd:ref>.</xd:param>
-        <xd:param name="format">See <xd:ref name="formURL" type="template">formURL template</xd:ref>.</xd:param>
-        <xd:param name="q">See <xd:ref name="formURL" type="template">formURL template</xd:ref>.</xd:param>
+        <xd:desc>Convenience-wrapper to formURL-template shall be usable to form consistently all
+            urls within xsl </xd:desc>
+        <xd:param name="action">See <xd:ref name="formURL" type="template">formURL
+            template</xd:ref>.</xd:param>
+        <xd:param name="format">See <xd:ref name="formURL" type="template">formURL
+            template</xd:ref>.</xd:param>
+        <xd:param name="q">See <xd:ref name="formURL" type="template">formURL
+            template</xd:ref>.</xd:param>
     </xd:doc>
     <xsl:function name="utils:formURL">
         <xsl:param name="action"/>
@@ -102,9 +115,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>-->
-    </xsl:function>        
-  
-   <!--
+    </xsl:function>
+
+    <!--
     convenience wrapper function to xml-context-template;
     delivers the ancestor path
     -->
@@ -114,8 +127,8 @@
             <xsl:with-param name="child" select="$child"/>
         </xsl:call-template>
     </xsl:function>
-  
-<!--
+
+    <!--
    convenience wrapper function to dict-template;
 -->
     <xsl:function name="utils:dict">

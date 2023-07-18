@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://purl.org/dc/elements/1.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcr="http://www.isocat.org/ns/dcr" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0">
+<xsl:stylesheet xmlns="http://purl.org/dc/elements/1.1/" xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcr="http://www.isocat.org/ns/dcr" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -25,9 +28,12 @@
         <xsl:value-of select="$cmd:CMD/cmd:Resources[1]/cmd:ResourceProxyList[1]/cmd:ResourceProxy[cmd:ResourceType='LandingPage']/@id"/>
         <xsl:value-of select="$cmd:CMD/cmd:Resources[1]/cmd:ResourceProxyList[1]/cmd:ResourceProxy[cmd:ResourceType='Resource']/@id"/>
     </xsl:variable>-->
-    <xsl:variable name="dc:creator" select="(.//cmd:Owner, .//cmd:creator, .//cmd:publisher, .//cmd:Contact/cmd:Person)[1]"/>
-    <xsl:variable name="dc:title" select="(.//cmd:Title, .//cmd:ResourceTitle, .//cmd:title, .//cmd:ResourceName, .//cmd:Name)[1]"/>
-    <xsl:variable name="dc:identifier" select="(.//cmd:Resources[1]/cmd:ResourceProxyList[1]/cmd:ResourceProxy[cmd:ResourceType=('LandingPage','Resource')]/@id)[1]"/>
+    <xsl:variable name="dc:creator"
+        select="(.//cmd:Owner, .//cmd:creator, .//cmd:publisher, .//cmd:Contact/cmd:Person)[1]"/>
+    <xsl:variable name="dc:title"
+        select="(.//cmd:Title, .//cmd:ResourceTitle, .//cmd:title, .//cmd:ResourceName, .//cmd:Name)[1]"/>
+    <xsl:variable name="dc:identifier"
+        select="(.//cmd:Resources[1]/cmd:ResourceProxyList[1]/cmd:ResourceProxy[cmd:ResourceType = ('LandingPage', 'Resource')]/@id)[1]"/>
     <xsl:variable name="dc:date" select="(.//cmd:LastUpdate, .//date)[1]"/>
     <!--<oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd">-->
@@ -37,7 +43,11 @@
                 <xsl:value-of select="$dc:title"/>
             </title>
             <identifier>
-                <xsl:value-of select="concat(if ($fedora-pid-namespace-prefix!='') then concat(replace($fedora-pid-namespace-prefix,':$',''),':') else (),$dc:identifier)"/>
+                <xsl:value-of select="
+                        concat(if ($fedora-pid-namespace-prefix != '') then
+                            concat(replace($fedora-pid-namespace-prefix, ':$', ''), ':')
+                        else
+                            (), $dc:identifier)"/>
             </identifier>
             <creator>
                 <xsl:value-of select="$dc:creator"/>

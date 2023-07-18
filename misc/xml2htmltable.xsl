@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-<!-- 
+    <!-- 
 <purpose>generic conversion of data-sets in xml to a basic-view[HTML]</purpose>
 <params>
 <param name=""></param>
@@ -22,34 +22,30 @@
     </xsl:template>
     <xsl:template name="genHeader">
         <div class="note">
-            <xsl:for-each select="/*/@*[name()!='title']">
+            <xsl:for-each select="/*/@*[name() != 'title']">
                 <span class="label">
                     <xsl:value-of select="name()"/>: </span>
                 <em>
                     <xsl:value-of select="."/>
-                </em>;
-					</xsl:for-each>
-            <xsl:for-each select="/*/header/*[.!='']">
+                </em>; </xsl:for-each>
+            <xsl:for-each select="/*/header/*[. != '']">
                 <span class="label">
                     <xsl:value-of select="name()"/>: </span>
                 <em>
                     <xsl:value-of select="."/>
-                </em>;
-					</xsl:for-each>
-            <xsl:for-each select="/*/header/*[count(@*)=1][.!='']">
+                </em>; </xsl:for-each>
+            <xsl:for-each select="/*/header/*[count(@*) = 1][. != '']">
                 <span class="label">
                     <xsl:value-of select="@*[1]"/>: </span>
                 <em>
                     <xsl:value-of select="."/>
-                </em>;
-					</xsl:for-each>
-            <xsl:for-each select="/*/header/*[count(@*)=2]">
+                </em>; </xsl:for-each>
+            <xsl:for-each select="/*/header/*[count(@*) = 2]">
                 <span class="label">
                     <xsl:value-of select="@*[1]"/>: </span>
                 <em>
                     <xsl:value-of select="@*[2]"/>
-                </em>;
-					</xsl:for-each>
+                </em>; </xsl:for-each>
         </div>
     </xsl:template>
     <xsl:template name="title">
@@ -58,17 +54,17 @@
         </xsl:if>
     </xsl:template>
     <xsl:template name="body">
-    <!-- <document> -->
+        <!-- <document> -->
         <xsl:choose>
             <xsl:when test="/*/header">
-                <xsl:apply-templates select="/*/*[position()&gt;1]"/>
+                <xsl:apply-templates select="/*/*[position() &gt; 1]"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
             </xsl:otherwise>
-        </xsl:choose>      
+        </xsl:choose>
 
-     <!-- </document> -->
+        <!-- </document> -->
     </xsl:template>
     <xsl:template match="*">
         <hr/>
@@ -86,11 +82,12 @@
     <xsl:template name="node-attrs">
         <xsl:for-each select="@*">
             <xsl:value-of select="name()"/>: <xsl:value-of select="."/>
-            <xsl:if test="not(position()=last())">; </xsl:if>
+            <xsl:if test="not(position() = last())">; </xsl:if>
         </xsl:for-each>
     </xsl:template>
     <xsl:template name="children2table">
-        <table><!-- <caption><xsl:value-of select="name()" /> (<xsl:call-template name="node-attrs" />)</caption> -->
+        <table>
+            <!-- <caption><xsl:value-of select="name()" /> (<xsl:call-template name="node-attrs" />)</caption> -->
             <thead>
                 <tr>
                     <xsl:for-each select="*[1]/@*">
@@ -100,10 +97,10 @@
                     </xsl:for-each>
                     <xsl:for-each select="*[1]/*">
                         <th>
-                            <xsl:value-of select="concat(position(),name())"/>
+                            <xsl:value-of select="concat(position(), name())"/>
                         </th>
                     </xsl:for-each>
-			<!-- <xsl:if test="$copy_cols" > 
+                    <!-- <xsl:if test="$copy_cols" > 
 				<th><xsl:value-of select="name(*[1])" /></th> -->
                 </tr>
             </thead>
@@ -116,12 +113,12 @@
                                 <xsl:value-of select="."/>
                             </td>
                         </xsl:for-each>
-                        <xsl:for-each select="(*|text())">
+                        <xsl:for-each select="(* | text())">
                             <td>
                                 <xsl:value-of select="."/>
                             </td>
                         </xsl:for-each>
-									<!--	<td><xsl:value-of select="." /></td>  -->
+                        <!--	<td><xsl:value-of select="." /></td>  -->
                     </tr>
                 </xsl:for-each>
             </tbody>

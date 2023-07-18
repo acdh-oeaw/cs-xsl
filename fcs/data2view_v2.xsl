@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:kwic="http://clarin.eu/fcs/1.0/kwic" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0" exclude-result-prefixes="kwic xsl tei sru xs fcs exist xd">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:kwic="http://clarin.eu/fcs/1.0/kwic"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:exist="http://exist.sourceforge.net/NS/exist"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0"
+    exclude-result-prefixes="kwic xsl tei sru xs fcs exist xd">
     <xsl:import href="data2view_v1.xsl"/>
     <xd:doc scope="stylesheet">
-        <xd:desc>Provides more specific handling of sru-result-set recordData
-            <xd:p>History:
-                <xd:ul>
-                    <xd:li>2013-08-26: created by: "os": split additional element data display using XSL 2.0 funtionality</xd:li>
+        <xd:desc>Provides more specific handling of sru-result-set recordData <xd:p>History: <xd:ul>
+                    <xd:li>2013-08-26: created by: "os": split additional element data display using
+                        XSL 2.0 funtionality</xd:li>
                 </xd:ul>
             </xd:p>
             <xd:p/>
@@ -13,9 +17,9 @@
     </xd:doc>
     <xd:doc>
         <xd:desc>
-            <xd:p>generic template, invoked link processing and places attributes of the element 
-                (TODO: !and its parents!)
-            in a separate hidden structure - viewable via mouseover (given appropriate css and js is supplied)</xd:p>
+            <xd:p>generic template, invoked link processing and places attributes of the element
+                (TODO: !and its parents!) in a separate hidden structure - viewable via mouseover
+                (given appropriate css and js is supplied)</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:template name="inline">
@@ -27,7 +31,7 @@
         </xsl:variable>
         <xsl:variable name="inline-content">
             <xsl:for-each select="node()">
-<!--                   DEBUG:<xsl:value-of select="name()"></xsl:value-of>-->
+                <!--                   DEBUG:<xsl:value-of select="name()"></xsl:value-of>-->
                 <xsl:choose>
                     <xsl:when test="parent::exist:match">
                         <xsl:apply-templates select="parent::exist:match" mode="record-data"/>
@@ -40,7 +44,8 @@
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates select="." mode="record-data">
-                            <xsl:with-param name="insertTrailingBlank" select="$insertTrailingBlank"/>
+                            <xsl:with-param name="insertTrailingBlank" select="$insertTrailingBlank"
+                            />
                         </xsl:apply-templates>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -51,17 +56,18 @@
                 <xsl:value-of select=".[. != $descendants-to-ignore]"/>
                 <xsl:text> </xsl:text>
             </xsl:for-each>-->
-            <xsl:value-of select="string-join((local-name(.),@type,@subtype),' ')"/>
+            <xsl:value-of select="string-join((local-name(.), @type, @subtype), ' ')"/>
         </xsl:variable>
         <xsl:variable name="inline-elem">
             <xsl:choose>
-                <xsl:when test="not($elem-link='')">
+                <xsl:when test="not($elem-link = '')">
                     <a href="{$elem-link}">
                         <span class="{$class}">
                             <xsl:if test="$additional-style">
                                 <xsl:attribute name="style">
                                     <xsl:call-template name="rend-color-as-html-style">
-                                        <xsl:with-param name="rend-text" select="$additional-style"/>
+                                        <xsl:with-param name="rend-text" select="$additional-style"
+                                        />
                                     </xsl:call-template>
                                 </xsl:attribute>
                             </xsl:if>
@@ -96,22 +102,22 @@
                                     <xsl:value-of select="name()"/>
                                 </td>
                             </tr>
-                    
-<!--                        <xsl:apply-templates select="@*" mode="format-attr"/>-->
+
+                            <!--                        <xsl:apply-templates select="@*" mode="format-attr"/>-->
                             <tr>
                                 <td>
                                     <xsl:for-each select="current-group()">
                                         <xsl:if test="@*">
                                             <table style="float:left">
                                                 <xsl:for-each select="@*">
-                                                    <tr>
-                                                        <td class="label">
-                                                            <xsl:value-of select="name()"/>
-                                                        </td>
-                                                        <td class="value">
-                                                            <xsl:value-of select="."/>
-                                                        </td>
-                                                    </tr>
+                                                  <tr>
+                                                  <td class="label">
+                                                  <xsl:value-of select="name()"/>
+                                                  </td>
+                                                  <td class="value">
+                                                  <xsl:value-of select="."/>
+                                                  </td>
+                                                  </tr>
                                                 </xsl:for-each>
                                             </table>
                                         </xsl:if>
@@ -125,7 +131,7 @@
             <xsl:sequence select="$inline-elem"/>
         </span>
     </xsl:template>
-    
+
     <!-- versioned going top-down (collecting the children of given element)
     <xsl:template name="inline">
         <xsl:variable name="elem-link">

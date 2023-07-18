@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mods="http://www.loc.gov/mods/v3" version="1.0" exclude-result-prefixes="mods xlink">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:mods="http://www.loc.gov/mods/v3" version="1.0"
+    exclude-result-prefixes="mods xlink">
     <xsl:output method="xhtml" indent="yes"/>
-	<!-- 
+    <!-- 
 		Version 2.0 MODS3.4 records to html Winona Salesky 
 		Outputs all mods elements in a definition list with element names, attribute names and values.
 		
 		got from: http://www.loc.gov/standards/mods/v3/MODS3-4_HTML_XSLT1-0.xsl
 		adapted for cr-xq needs (removed html-header, just providing the internals) 
 	-->
-    <xsl:variable name="dictionary" select="document('http://www.loc.gov/standards/mods/modsDictionary.xml')/dictionary"/>
+    <xsl:variable name="dictionary"
+        select="document('http://www.loc.gov/standards/mods/modsDictionary.xml')/dictionary"/>
     <xsl:template match="/">
         <div>
             <xsl:choose>
@@ -65,7 +68,7 @@
     <xsl:template name="formatValue">
         <dd>
             <xsl:choose>
-                <xsl:when test="@type='uri'">
+                <xsl:when test="@type = 'uri'">
                     <a href="{text()}">
                         <xsl:value-of select="text()"/>
                     </a>
@@ -79,8 +82,8 @@
     <xsl:template name="longName">
         <xsl:param name="name"/>
         <xsl:choose>
-            <xsl:when test="$dictionary/entry[@key=$name]">
-                <xsl:value-of select="$dictionary/entry[@key=$name]"/>
+            <xsl:when test="$dictionary/entry[@key = $name]">
+                <xsl:value-of select="$dictionary/entry[@key = $name]"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$name"/>
@@ -88,7 +91,7 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template name="attr">
-        <xsl:for-each select="@type|@point">: <xsl:call-template name="longName">
+        <xsl:for-each select="@type | @point">: <xsl:call-template name="longName">
                 <xsl:with-param name="name">
                     <xsl:value-of select="."/>
                 </xsl:with-param>
@@ -104,10 +107,12 @@
             <xsl:if test="@edition"> Edition <xsl:value-of select="@edition"/>
             </xsl:if>)</xsl:if>
         <xsl:variable name="attrStr">
-            <xsl:for-each select="@*[local-name()!='edition' and local-name()!='type' and local-name()!='authority' and local-name()!='point']">
+            <xsl:for-each
+                select="@*[local-name() != 'edition' and local-name() != 'type' and local-name() != 'authority' and local-name() != 'point']">
                 <xsl:value-of select="local-name()"/>="<xsl:value-of select="."/>", </xsl:for-each>
         </xsl:variable>
         <xsl:variable name="nattrStr" select="normalize-space($attrStr)"/>
-        <xsl:if test="string-length($nattrStr)"> (<xsl:value-of select="substring($nattrStr,1,string-length($nattrStr)-1)"/>)</xsl:if>
+        <xsl:if test="string-length($nattrStr)"> (<xsl:value-of
+                select="substring($nattrStr, 1, string-length($nattrStr) - 1)"/>)</xsl:if>
     </xsl:template>
 </xsl:stylesheet>

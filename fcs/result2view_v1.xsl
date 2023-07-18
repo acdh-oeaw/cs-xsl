@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:saxon="http://saxon.sf.net/" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:exsl="http://exslt.org/common" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="1.0" exclude-result-prefixes="saxon xs exsl diag sru fcs xd">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:diag="http://www.loc.gov/zing/srw/diagnostic/" xmlns:saxon="http://saxon.sf.net/"
+    xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:exsl="http://exslt.org/common"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="1.0"
+    exclude-result-prefixes="saxon xs exsl diag sru fcs xd">
     <xd:doc scope="stylesheet">
         <xd:desc>Generate html view of a sru-result-set (eventually in various formats).
-            <xd:p>History:
-                <xd:ul>
-                    <xd:li>2011-12-06: created by:"vr": based on cmdi/scripts/mdset2view.xsl retrofitted for XSLT 1.0</xd:li>
+                <xd:p>History: <xd:ul>
+                    <xd:li>2011-12-06: created by:"vr": based on cmdi/scripts/mdset2view.xsl
+                        retrofitted for XSLT 1.0</xd:li>
                 </xd:ul>
             </xd:p>
         </xd:desc>
@@ -13,7 +19,9 @@
     <xd:doc>
         <xd:desc/>
     </xd:doc>
-    <xsl:output method="html" media-type="text/xhtml" indent="yes" encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:output method="html" media-type="text/xhtml" indent="yes" encoding="UTF-8"
+        doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+        doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
     <xd:doc>
         <xd:desc>Common stuff that works with XSL 1.0</xd:desc>
     </xd:doc>
@@ -32,12 +40,8 @@
         <col>all</col>
     </xsl:variable>
     <xd:doc>
-        <xd:desc>Main entry point. Called by commons_v1.xsl's / matching template.
-            <xd:p>
-                
-            </xd:p>
-            <xd:p>
-                TODO: Finish switching to different modes depending on the $format parameter.
+        <xd:desc>Main entry point. Called by commons_v1.xsl's / matching template. <xd:p> </xd:p>
+            <xd:p> TODO: Finish switching to different modes depending on the $format parameter.
             </xd:p>
         </xd:desc>
     </xd:doc>
@@ -45,15 +49,15 @@
         <xsl:for-each select="sru:searchRetrieveResponse">
             <xsl:apply-templates select="sru:diagnostics"/>
             <div>
-<!--                <xsl:if test="contains($format, 'page')">-->
+                <!--                <xsl:if test="contains($format, 'page')">-->
                 <xsl:call-template name="header"/>
-<!--                </xsl:if>-->
+                <!--                </xsl:if>-->
                 <!-- switch mode depending on the $format-parameter -->
                 <xsl:choose>
-                    <xsl:when test="contains($format,'table')">
+                    <xsl:when test="contains($format, 'table')">
                         <xsl:apply-templates select="sru:records" mode="table"/>
                     </xsl:when>
-                    <xsl:when test="contains($format,'list')">
+                    <xsl:when test="contains($format, 'list')">
                         <xsl:apply-templates select="sru:records" mode="list"/>
                     </xsl:when>
                     <xsl:otherwise>
@@ -65,8 +69,8 @@
         </xsl:for-each>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Generates a header for each of the &lt;div&gt; containers
-            <xd:ref name="continue-root" type="template">continue-root</xd:ref> creates.</xd:desc>
+        <xd:desc>Generates a header for each of the &lt;div&gt; containers <xd:ref
+                name="continue-root" type="template">continue-root</xd:ref> creates.</xd:desc>
     </xd:doc>
     <xsl:template name="header">
         <div class="result-header" data-numberOfRecords="{$numberOfRecords}">
@@ -88,14 +92,13 @@
             </span>
             <span class="label"> hits)</span>
             <div class="note">
-                <xsl:for-each select="(sru:echoedSearchRetrieveRequest/*|sru:extraResponseData/*)">
+                <xsl:for-each select="(sru:echoedSearchRetrieveRequest/* | sru:extraResponseData/*)">
                     <span class="label">
                         <xsl:value-of select="name()"/>: </span>
                     <span class="value">
                         <xsl:value-of select="."/>
-                    </span>;
-                    </xsl:for-each>
-                    <!--<span class="label">duration: </span>
+                    </span>; </xsl:for-each>
+                <!--<span class="label">duration: </span>
 <span class="value">
 <xsl:value-of select="sru:extraResponseData/fcs:duration"/>
 </span>;-->
@@ -109,7 +112,7 @@
     <xsl:template match="sru:records" mode="table">
         <div class="result-body">
             <table class="show">
-            <!--<thead>
+                <!--<thead>
                 <tr>
                     <th>pos</th>
                     <th>record</th>
@@ -145,7 +148,7 @@
         <xsl:variable name="absolute_position">
             <xsl:choose>
                 <!-- CHECK: Does this check if $startRecord is a number, or is it an error? -->
-                <xsl:when test="number($startRecord)=number($startRecord)">
+                <xsl:when test="number($startRecord) = number($startRecord)">
                     <xsl:value-of select="number($startRecord) + position() - 1"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -219,7 +222,8 @@ TODO: handle context
         </tr>
     </xsl:template>
     <xd:doc>
-        <xd:desc>If the request cannot be served a sru:diagnostics record is returned instead of</xd:desc>
+        <xd:desc>If the request cannot be served a sru:diagnostics record is returned instead
+            of</xd:desc>
     </xd:doc>
     <xsl:template match="sru:diagnostics">
         <div class="error">
@@ -230,8 +234,7 @@ TODO: handle context
         <xd:desc/>
     </xd:doc>
     <xsl:template match="diag:diagnostic">
-        <xsl:value-of select="diag:message"/> (<xsl:value-of select="diag:uri"/>)
-    </xsl:template>
+        <xsl:value-of select="diag:message"/> (<xsl:value-of select="diag:uri"/>) </xsl:template>
     <xsl:template match="sru:facetedResults">
         <div class="facets">
             <xsl:apply-templates/>

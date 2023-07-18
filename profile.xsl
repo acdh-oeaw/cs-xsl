@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="1.0" exclude-result-prefixes="xsl xd tei">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:html="http://www.w3.org/1999/xhtml" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
+    version="1.0" exclude-result-prefixes="xsl xd tei">
     <xsl:import href="fcs/result2view_v1.xsl"/>
-    <xsl:output method="html" media-type="text/xhtml" indent="yes" encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <xsl:output method="html" media-type="text/xhtml" indent="yes" encoding="UTF-8"
+        doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+        doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
     <xsl:template match="tei:ptr" mode="record-data">
         <xsl:variable name="target">
             <xsl:choose>
@@ -18,7 +23,7 @@
                     <xsl:call-template name="formURL">
                         <xsl:with-param name="action">searchRetrieve</xsl:with-param>
                         <xsl:with-param name="q" select="substring-after(@target, '|')"/>
-            <!-- <xsl:with-param name="x-context" select="substring-before(@target, '|')"/>-->
+                        <!-- <xsl:with-param name="x-context" select="substring-before(@target, '|')"/>-->
                         <xsl:with-param name="x-context">vicav-bib</xsl:with-param>
                     </xsl:call-template>
                 </xsl:when>

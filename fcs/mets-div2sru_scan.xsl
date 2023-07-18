@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cr="http://aac.ac.at/content_repository" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:mets="http://www.loc.gov/METS/" version="2.0" exclude-result-prefixes="msxsl">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:cr="http://aac.ac.at/content_repository" xmlns:sru="http://www.loc.gov/zing/srw/"
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:fcs="http://clarin.eu/fcs/1.0"
+    xmlns:mets="http://www.loc.gov/METS/" version="2.0" exclude-result-prefixes="msxsl">
     <xsl:output method="xml" indent="yes"/>
     <xsl:param name="index-key">resource</xsl:param>
     <xsl:template match="/">
         <sru:scanResponse>
-<!--            <xsl:copy-of select="."/>-->
+            <!--            <xsl:copy-of select="."/>-->
             <sru:version>1.2</sru:version>
             <sru:terms>
                 <xsl:apply-templates/>
@@ -27,7 +30,8 @@
     </xsl:template>
     <xsl:template match="mets:div">
         <sru:term>
-            <sru:value><!--
+            <sru:value>
+                <!--
                 
                 <xsl:value-of select="@ID"/>-->
                 <xsl:choose>
@@ -35,15 +39,19 @@
                         <xsl:value-of select="@ID"/>
                     </xsl:when>
                     <xsl:when test="@CONTENTIDS">
-                        <xsl:value-of select="replace(@CONTENTIDS,'#','')"/>
+                        <xsl:value-of select="replace(@CONTENTIDS, '#', '')"/>
                     </xsl:when>
                     <xsl:otherwise/>
                 </xsl:choose>
             </sru:value>
-<!--                <sru:numberOfRecords><xsl:value-of select="count(map)" /></sru:numberOfRecords>-->
+            <!--                <sru:numberOfRecords><xsl:value-of select="count(map)" /></sru:numberOfRecords>-->
             <sru:displayTerm>
                 <!-- very specific fix for stripping page prefix: 'S.' -->
-                <xsl:value-of select="if (starts-with(@LABEL,'S.')) then substring-after(@LABEL,'S.') else @LABEL "/>
+                <xsl:value-of select="
+                        if (starts-with(@LABEL, 'S.')) then
+                            substring-after(@LABEL, 'S.')
+                        else
+                            @LABEL"/>
             </sru:displayTerm>
             <sru:extraTermData>
                 <xsl:if test="@TYPE">

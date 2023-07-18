@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:utils="http://aac.ac.at/corpus_shell/utils" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs saxon utils" extension-element-prefixes="saxon" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:utils="http://aac.ac.at/corpus_shell/utils" xmlns:saxon="http://saxon.sf.net/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs saxon utils"
+    extension-element-prefixes="saxon" version="2.0">
     <xsl:template name="hits">
         <xsl:param name="data" select="/"/>
         <xsl:apply-templates select="$data//result" mode="hits"/>
     </xsl:template>
     <xsl:template match="result" mode="hits">
         <div class="result">
-            <h3>Result list: <xsl:value-of select="(.//*[@name='params']/*[@name='q'], utils:params('q','')) [1]"/>
+            <h3>Result list: <xsl:value-of
+                    select="(.//*[@name = 'params']/*[@name = 'q'], utils:params('q', ''))[1]"/>
             </h3>
             <span class="label">hits: </span>
             <span class="value hilight">
@@ -14,7 +18,7 @@
             </span>
             <span class="label">start, count: </span>
             <span class="value">
-                <xsl:value-of select="@start"/>, <xsl:value-of select="utils:params('rows','')"/>
+                <xsl:value-of select="@start"/>, <xsl:value-of select="utils:params('rows', '')"/>
             </span>
             <table class="show-lines">
                 <xsl:apply-templates select="doc" mode="hits"/>
@@ -28,11 +32,13 @@
             </td>
             <td>
                 <xsl:call-template name="get-kwic">
-                    <xsl:with-param name="id" select="*[@name='id']/text()"/>
+                    <xsl:with-param name="id" select="*[@name = 'id']/text()"/>
                 </xsl:call-template>
             </td>
             <td>
-                <xsl:apply-templates mode="hits" select="*[@name=('titel','docsrc','region', 'ressort2', 'year', 'date', 'tokens')]"/>
+                <xsl:apply-templates mode="hits"
+                    select="*[@name = ('titel', 'docsrc', 'region', 'ressort2', 'year', 'date', 'tokens')]"
+                />
             </td>
         </tr>
     </xsl:template>
@@ -41,18 +47,16 @@
             <span class="label">
                 <xsl:value-of select="@name"/>: </span>
             <span class="value">
-                <xsl:value-of select="string-join(*,', ')"/>
-            </span>, 
-        </span>
+                <xsl:value-of select="string-join(*, ', ')"/>
+            </span>, </span>
     </xsl:template>
-    <xsl:template match="doc/*[not(name()='arr')]" mode="hits">
+    <xsl:template match="doc/*[not(name() = 'arr')]" mode="hits">
         <span class="field">
             <span class="label">
                 <xsl:value-of select="@name"/>: </span>
             <span class="value">
                 <xsl:value-of select="."/>
-            </span>, 
-        </span>
+            </span>, </span>
     </xsl:template>
     <xsl:template name="get-kwic">
         <xsl:param name="id"/>
@@ -60,21 +64,23 @@
         <!-- 
         <xsl:variable name="highlights" select="//lst[@name='highlighting']/lst"></xsl:variable>
         stay contextual for the case of a multiresult -->
-        <xsl:variable name="highlights" select="ancestor::result[@name='response']/lst[@name='highlighting']/lst"/>
+        <xsl:variable name="highlights"
+            select="ancestor::result[@name = 'response']/lst[@name = 'highlighting']/lst"/>
         <xsl:choose>
             <xsl:when test="$highlights">
-                <xsl:variable name="match" select="$highlights[@name=$id]"/>
+                <xsl:variable name="match" select="$highlights[@name = $id]"/>
                 <xsl:for-each select="$match/arr/*">
                     <!--if (exists(.)) then saxon:parse(concat('<span>',  replace(replace(replace(.,'&','&amp;'),
                                 $apos,'&apos;'), '<<', '&lt;&lt;') , '</span>')) else ''"/>-->
                     <!--<xsl:variable name="parsed_match" select="
                         if (exists(.)) then concat('<span>',  replace(replace(replace(replace(.,'&','&amp;'),                                 
                         $apos,'&apos;'), '<<', '&lt;&lt;'), '<-', '&lt;-') , '</span>') else ''"/>-->
-                    <xsl:variable name="parsed_match" select="                         replace(replace(replace(replace(., '&amp;', '&amp;amp;'),'&lt;', '&amp;lt;'), '&amp;lt;em&gt;', '&lt;em&gt;'),'&amp;lt;/em&gt;', '&lt;/em&gt;')"/>
-                        <!--if (exists(.)) then concat('<span>',  replace(replace(replace(replace(.,'&','&amp;'),                                 
+                    <xsl:variable name="parsed_match"
+                        select="                         replace(replace(replace(replace(., '&amp;', '&amp;amp;'),'&lt;', '&amp;lt;'), '&amp;lt;em&gt;', '&lt;em&gt;'),'&amp;lt;/em&gt;', '&lt;/em&gt;')"/>
+                    <!--if (exists(.)) then concat('<span>',  replace(replace(replace(replace(.,'&','&amp;'),                                 
                         $apos,'&apos;'), '<<', '&lt;&lt;'), '<-', '&lt;-') , '</span>') else ''"/>-->
                     <div class="kwic">
-<!--                        <xsl:copy-of select="$parsed_match" />-->
+                        <!--                        <xsl:copy-of select="$parsed_match" />-->
                         <xsl:value-of select="$parsed_match" disable-output-escaping="yes"/>
                     </div>
                 </xsl:for-each>
@@ -85,7 +91,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+
     <!--
         generic table view
     <xsl:template match="result" mode="hits">

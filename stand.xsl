@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-<!-- ********************************************************* -->
-<!-- This stylesheet is used to display the output of comments -->
-<!-- adapted from aac:stand.xsl ( removed root template)   -->
-<!-- ********************************************************* -->
+    <!-- ********************************************************* -->
+    <!-- This stylesheet is used to display the output of comments -->
+    <!-- adapted from aac:stand.xsl ( removed root template)   -->
+    <!-- ********************************************************* -->
 
 
 
-<!--    <xsl:variable name="marginLeft" select="'margin-left:100px;'"/>-->
+    <!--    <xsl:variable name="marginLeft" select="'margin-left:100px;'"/>-->
     <xsl:variable name="marginLeft" select="''"/>
     <xsl:template match="bibl">
         <span style="color:rgb(128,0,255);">
@@ -36,7 +37,7 @@
         </span>
     </xsl:template>
     <xsl:template match="corr">
-        <xsl:if test="@cert[.='high']">
+        <xsl:if test="@cert[. = 'high']">
             <span style="color:rgb(255,0,0);">
                 <sup>
                     <i>
@@ -45,7 +46,7 @@
                 </sup>
             </span>
         </xsl:if>
-        <xsl:if test="@cert[.='low']">
+        <xsl:if test="@cert[. = 'low']">
             <span style="color:rgb(128,0,255);">
                 <sup>
                     <i>
@@ -77,7 +78,7 @@
     </xsl:template>
     <xsl:template match="div">
         <xsl:choose>
-            <xsl:when test="@type[.='compTitle']">
+            <xsl:when test="@type[. = 'compTitle']">
                 <span style="color:rgb(204,0,0);font-size:14pt;">
                     <xsl:apply-templates/>
                 </span>
@@ -112,7 +113,8 @@
         </xsl:variable>
         <xsl:if test="$line &gt; 0">
             <br>
-                <xsl:attribute name="style">font-family:'Arial Unicode MS';font-size:13pt;</xsl:attribute>
+                <xsl:attribute name="style">font-family:'Arial Unicode
+                    MS';font-size:13pt;</xsl:attribute>
                 <xsl:attribute name="id">
                     <xsl:value-of select="$brID"/>
                 </xsl:attribute>
@@ -145,7 +147,8 @@
         <xsl:choose>
             <xsl:when test="child::p">
                 <br/>
-                <table style="border: 3px solid olivedrab;font-size:10pt;padding:3px 3px 3px 3px;margin-left:100px;">
+                <table
+                    style="border: 3px solid olivedrab;font-size:10pt;padding:3px 3px 3px 3px;margin-left:100px;">
                     <tr>
                         <td style="border: 1px solid black;">
                             <xsl:apply-templates/>
@@ -156,7 +159,8 @@
             </xsl:when>
             <xsl:when test="child::lg">
                 <br/>
-                <table style="border: 3px solid olivedrab;font-size:10pt;padding:3px 3px 3px 3px;margin-left:100px;">
+                <table
+                    style="border: 3px solid olivedrab;font-size:10pt;padding:3px 3px 3px 3px;margin-left:100px;">
                     <tr>
                         <td style="border: 1px solid black;">
                             <xsl:apply-templates/>
@@ -188,47 +192,52 @@
     </xsl:template>
     <xsl:template match="fw">
         <xsl:choose>
-            <xsl:when test="@place[.='top_right']">
+            <xsl:when test="@place[. = 'top_right']">
                 <span style="text-align:right">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place[.='top_left']">
+            <xsl:when test="@place[. = 'top_left']">
                 <span style="text-align:left">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place[.='top_center']">
+            <xsl:when test="@place[. = 'top_center']">
                 <span style="width:330px;text-align:center">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place[.='bot_right']">
+            <xsl:when test="@place[. = 'bot_right']">
                 <span style="width:300px;text-align:right">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place[.='bot_left']">
+            <xsl:when test="@place[. = 'bot_left']">
                 <span style="width:380px;text-align:left">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place[.='bot_center']">
+            <xsl:when test="@place[. = 'bot_center']">
                 <span style="width:330px;text-align:center">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='marginalNote']">
+            <xsl:when test="@type[. = 'marginalNote']">
                 <div>
                     <xsl:choose>
-                        <xsl:when test="@place[.='right']">
-                            <xsl:attribute name="style">position:absolute;left:650px;font-family:'Arial Unicode MS';font-size:10pt;</xsl:attribute>
+                        <xsl:when test="@place[. = 'right']">
+                            <xsl:attribute name="style"
+                                >position:absolute;left:650px;font-family:'Arial Unicode
+                                MS';font-size:10pt;</xsl:attribute>
                         </xsl:when>
                         <xsl:otherwise>
-                            <xsl:attribute name="style">position:absolute;left:20px;font-family:'Arial Unicode MS';font-size:10pt;</xsl:attribute>
+                            <xsl:attribute name="style"
+                                >position:absolute;left:20px;font-family:'Arial Unicode
+                                MS';font-size:10pt;</xsl:attribute>
                         </xsl:otherwise>
                     </xsl:choose>
-                    <xsl:variable name="mID">m<xsl:value-of select="count(preceding::p) + count(preceding::lg)"/>
+                    <xsl:variable name="mID">m<xsl:value-of
+                            select="count(preceding::p) + count(preceding::lg)"/>
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="@aac_ord">
@@ -248,7 +257,8 @@
                                 <xsl:call-template name="emptyLine">
                                     <xsl:with-param name="line" select="@aac_line - 1"/>
                                     <xsl:with-param name="mid">
-                                        <xsl:value-of select="$mID"/>_<xsl:value-of select="@aac_ord"/>
+                                        <xsl:value-of select="$mID"/>_<xsl:value-of
+                                            select="@aac_ord"/>
                                     </xsl:with-param>
                                 </xsl:call-template>
                             </xsl:when>
@@ -276,28 +286,28 @@
     </xsl:template>
     <xsl:template match="head">
         <xsl:choose>
-            <xsl:when test="@type[.='desc']">
+            <xsl:when test="@type[. = 'desc']">
                 <span style="color:rgb(73,84,182);font-size:14pt;">
                     <p style="margin-left:100px;">
                         <xsl:apply-templates/>
                     </p>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='imprint']">
+            <xsl:when test="@type[. = 'imprint']">
                 <span style="color:rgb(128,128,128);font-size:14pt;">
                     <p style="margin-left:100px;">
                         <xsl:apply-templates/>
                     </p>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='main']">
+            <xsl:when test="@type[. = 'main']">
                 <span style="color:rgb(204,0,0);font-size:14pt;">
                     <p style="margin-left:100px;">
                         <xsl:apply-templates/>
                     </p>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='sub']">
+            <xsl:when test="@type[. = 'sub']">
                 <span style="color:rgb(215,107,0);font-size:14pt;">
                     <p style="margin-left:100px;">
                         <xsl:apply-templates/>
@@ -341,7 +351,7 @@
         <br/>
     </xsl:template>
 
-<!--
+    <!--
 <xsl:template match="lg">
 <xsl:choose>
 <xsl:when test="@aac_part[.='I'] and @rend[.='indent']"><span style="background:rgb(255,211,168);"><p>     <xsl:apply-templates/></p></span></xsl:when>
@@ -357,30 +367,39 @@
 -->
     <xsl:template match="lg">
         <p>
-            <xsl:attribute name="id">p<xsl:value-of select="count(preceding::p) + count(preceding::lg)"/>
+            <xsl:attribute name="id">p<xsl:value-of
+                    select="count(preceding::p) + count(preceding::lg)"/>
             </xsl:attribute>
             <xsl:choose>
-                <xsl:when test="@part[.='I'] and @rend[.='indent']">
-                    <xsl:attribute name="style">background:rgb(255,211,168);margin-left:100px;font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
-                <xsl:when test="@rend[.='indent']">
-                    <xsl:attribute name="style">margin-left:100px;font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
-                <xsl:when test="@aac_part[.='I']">
-                    <xsl:attribute name="style">background:rgb(255,211,168);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@part[. = 'I'] and @rend[. = 'indent']">
+                    <xsl:attribute name="style"
+                        >background:rgb(255,211,168);margin-left:100px;font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
+                <xsl:when test="@rend[. = 'indent']">
+                    <xsl:attribute name="style">margin-left:100px;font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
+                <xsl:when test="@aac_part[. = 'I']">
+                    <xsl:attribute name="style">background:rgb(255,211,168);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
-                <xsl:when test="@aac_part[.='M']">
-                    <xsl:attribute name="style">background:rgb(244,255,196);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@aac_part[. = 'M']">
+                    <xsl:attribute name="style">background:rgb(244,255,196);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
-                <xsl:when test="@aac_part[.='F']">
-                    <xsl:attribute name="style">background:rgb(205,223,254);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@aac_part[. = 'F']">
+                    <xsl:attribute name="style">background:rgb(205,223,254);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
                 <xsl:when test="ancestor::figure">
-                    <xsl:attribute name="style">font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>
+                    <xsl:attribute name="style">font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="style">font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                    <xsl:attribute name="style">font-family:'Arial Unicode
+                            MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:otherwise>
             </xsl:choose>
@@ -389,10 +408,10 @@
     </xsl:template>
     <xsl:template match="milestone">
         <xsl:choose>
-            <xsl:when test="@type[.='hr'] and @rend[.='line']">
+            <xsl:when test="@type[. = 'hr'] and @rend[. = 'line']">
                 <hr style="text-align:left;margin-left:100px;width:350px;"/>
             </xsl:when>
-            <xsl:when test="@type[.='hr'] and @rend[.='high']">
+            <xsl:when test="@type[. = 'hr'] and @rend[. = 'high']">
                 <table style="border: 3px solid Darkgrey;padding:3px 3px 3px 3px;margin-left:100px;">
                     <tr>
                         <td style="border: 1px solid black;width:340px;height:50px;">
@@ -402,32 +421,33 @@
                 </table>
                 <br/>
             </xsl:when>
-            <xsl:when test="@type[.='hr'] and @rend[.='dotted']">................................<br/>
+            <xsl:when test="@type[. = 'hr'] and @rend[. = 'dotted']"
+                >................................<br/>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='asterisk']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'asterisk']">
                 <p style="text-align:center">*</p>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='asterism']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'asterism']">
                 <p style="text-align:center">*&#160;&#160;*&#160;&#160;*</p>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='asterismUp']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'asterismUp']">
                 <p style="text-align:center">*&#160;&#160;<sup>*</sup>&#160;&#160;*</p>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='asterismDown']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'asterismDown']">
                 <p style="text-align:center">*&#160;&#160;<sub>*</sub>&#160;&#160;*</p>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='hr']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'hr']">
                 <hr style="width:100px;text-align:center"/>
             </xsl:when>
-            <xsl:when test="@type[.='separator'] and @rend[.='undefined']">
+            <xsl:when test="@type[. = 'separator'] and @rend[. = 'undefined']">
                 <p style="margin-left:100px;width:330px;text-align:center">⌫⌦</p>
             </xsl:when>
-            <xsl:when test="@type[.='symbol'] and @rend[.='blEtc']">રc.</xsl:when>
-            <xsl:when test="@type[.='symbol'] and @rend[.='brackets']">
+            <xsl:when test="@type[. = 'symbol'] and @rend[. = 'blEtc']">રc.</xsl:when>
+            <xsl:when test="@type[. = 'symbol'] and @rend[. = 'brackets']">
                 <span style="font-size:18pt;">)(</span>
             </xsl:when>
-            <xsl:when test="@type[.='symbol'] and @rend[.='flower']">✾</xsl:when>
-            <xsl:when test="@type[.='symbol'] and @rend[.='undefined']">
+            <xsl:when test="@type[. = 'symbol'] and @rend[. = 'flower']">✾</xsl:when>
+            <xsl:when test="@type[. = 'symbol'] and @rend[. = 'undefined']">
                 <b>☉</b>
             </xsl:when>
             <xsl:otherwise>
@@ -437,17 +457,17 @@
     </xsl:template>
     <xsl:template match="name">
         <xsl:choose>
-            <xsl:when test="@type[.='auctor']">
+            <xsl:when test="@type[. = 'auctor']">
                 <span style="color:rgb(0,128,255);">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='translator']">
+            <xsl:when test="@type[. = 'translator']">
                 <span style="color:rgb(0,128,255);">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='editor']">
+            <xsl:when test="@type[. = 'editor']">
                 <span style="color:rgb(0,128,255);">
                     <xsl:apply-templates/>
                 </span>
@@ -458,7 +478,7 @@
         </xsl:choose>
     </xsl:template>
 
-<!--
+    <!--
 <xsl:template match="p">
 <xsl:choose>
 <xsl:when test="@aac_part[.='I'] and @rend[.='indent']"><span style="background:rgb(255,211,168);"><p>     <xsl:apply-templates/></p></span></xsl:when>
@@ -472,30 +492,39 @@
 -->
     <xsl:template match="p">
         <p>
-            <xsl:attribute name="id">p<xsl:value-of select="count(preceding::p) + count(preceding::lg)"/>
+            <xsl:attribute name="id">p<xsl:value-of
+                    select="count(preceding::p) + count(preceding::lg)"/>
             </xsl:attribute>
             <xsl:choose>
-                <xsl:when test="@part[.='I'] and @rend[.='indent']">
-                    <xsl:attribute name="style">background:rgb(255,211,168);margin-left:100px;font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
-                <xsl:when test="@rend[.='indent']">
-                    <xsl:attribute name="style">margin-left:100px;font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
-                <xsl:when test="@aac_part[.='I']">
-                    <xsl:attribute name="style">background:rgb(255,211,168);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@part[. = 'I'] and @rend[. = 'indent']">
+                    <xsl:attribute name="style"
+                        >background:rgb(255,211,168);margin-left:100px;font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
+                <xsl:when test="@rend[. = 'indent']">
+                    <xsl:attribute name="style">margin-left:100px;font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>&#160;&#160;&#160;&#160;&#160;</xsl:when>
+                <xsl:when test="@aac_part[. = 'I']">
+                    <xsl:attribute name="style">background:rgb(255,211,168);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
-                <xsl:when test="@aac_part[.='M']">
-                    <xsl:attribute name="style">background:rgb(244,255,196);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@aac_part[. = 'M']">
+                    <xsl:attribute name="style">background:rgb(244,255,196);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
-                <xsl:when test="@aac_part[.='F']">
-                    <xsl:attribute name="style">background:rgb(205,223,254);font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                <xsl:when test="@aac_part[. = 'F']">
+                    <xsl:attribute name="style">background:rgb(205,223,254);font-family:'Arial
+                        Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:when>
                 <xsl:when test="ancestor::figure">
-                    <xsl:attribute name="style">font-family:'Arial Unicode MS';font-size:12pt;</xsl:attribute>
+                    <xsl:attribute name="style">font-family:'Arial Unicode
+                        MS';font-size:12pt;</xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:attribute name="style">font-family:'Arial Unicode MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
+                    <xsl:attribute name="style">font-family:'Arial Unicode
+                            MS';font-size:12pt;<xsl:value-of select="$marginLeft"/>
                     </xsl:attribute>
                 </xsl:otherwise>
             </xsl:choose>
@@ -503,7 +532,8 @@
         </p>
     </xsl:template>
     <xsl:template match="pb">
-        <p style="color:rgb(196,196,196);">.......................................................................................</p>
+        <p style="color:rgb(196,196,196);"
+            >.......................................................................................</p>
     </xsl:template>
     <xsl:template match="persName">
         <span style="color:rgb(0,108,0);text-decoration:none;">
@@ -562,7 +592,7 @@
     </xsl:template>
     <xsl:template match="rs">
         <xsl:choose>
-            <xsl:when test="@type[.='game']">
+            <xsl:when test="@type[. = 'game']">
                 <span style="color:rgb(159,80,0);text-decoration:none;">
                     <b>[</b>
                     <xsl:apply-templates/>
@@ -575,61 +605,61 @@
                                 <xsl:value-of select="@type"/>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='fraud']">
+                    <xsl:if test="@subtype[. = 'fraud']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,128,128);">fraud</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='fraud_']">
+                    <xsl:if test="@subtype[. = 'fraud_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,128,128);">fraud_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='jargon']">
+                    <xsl:if test="@subtype[. = 'jargon']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,255);">jargon</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='jargon_']">
+                    <xsl:if test="@subtype[. = 'jargon_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,255);">jargon_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='name']">
+                    <xsl:if test="@subtype[. = 'name']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,183,46);">name</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='player']">
+                    <xsl:if test="@subtype[. = 'player']">
                         <sup>
                             <i>
                                 <span style="color:rgb(202,0,0);">player</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='requisite']">
+                    <xsl:if test="@subtype[. = 'requisite']">
                         <sup>
                             <i>
                                 <span style="color:rgb(102,102,102);">requisite</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='term']">
+                    <xsl:if test="@subtype[. = 'term']">
                         <sup>
                             <i>
                                 <span style="color:rgb(102,0,204);">term</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='term_']">
+                    <xsl:if test="@subtype[. = 'term_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(102,0,204);">term_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='term_c']">
+                    <xsl:if test="@subtype[. = 'term_c']">
                         <sup>
                             <i>
                                 <span style="color:rgb(102,0,204);">term_c</span>&#160;</i>
@@ -637,7 +667,7 @@
                     </xsl:if>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='profession']">
+            <xsl:when test="@type[. = 'profession']">
                 <span style="color:rgb(91,91,91);text-decoration:none;">
                     <b>[</b>
                     <xsl:apply-templates/>
@@ -650,25 +680,25 @@
                                 <xsl:value-of select="@type"/>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='scientist']">
+                    <xsl:if test="@subtype[. = 'scientist']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,255);">scientist</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='science']">
+                    <xsl:if test="@subtype[. = 'science']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,183,46);">science</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='cleric']">
+                    <xsl:if test="@subtype[. = 'cleric']">
                         <sup>
                             <i>
                                 <span style="color:rgb(202,0,0);">cleric</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@subtype[.='foolery']">
+                    <xsl:if test="@subtype[. = 'foolery']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,128,192);">foolery</span>&#160;</i>
@@ -679,67 +709,67 @@
                             <xsl:value-of select="@key"/>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='attr']">
+                    <xsl:if test="@key2[. = 'attr']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,128,128);">attr</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='attr_s']">
+                    <xsl:if test="@key2[. = 'attr_s']">
                         <sup>
                             <i>
                                 <span style="color:rgb(255,0,0);">attr_s</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='habi']">
+                    <xsl:if test="@key2[. = 'habi']">
                         <sup>
                             <i>
                                 <span style="color:rgb(175,29,54);">habi</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='habi_']">
+                    <xsl:if test="@key2[. = 'habi_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(175,29,54);">habi_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='imag']">
+                    <xsl:if test="@key2[. = 'imag']">
                         <sup>
                             <i>
                                 <span style="color:rgb(102,0,204);">imag</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='inst']">
+                    <xsl:if test="@key2[. = 'inst']">
                         <sup>
                             <i>
                                 <span style="color:rgb(255,83,0);">inst</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='parl']">
+                    <xsl:if test="@key2[. = 'parl']">
                         <sup>
                             <i>
                                 <span style="color:rgb(174,0,174);">parl</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='parl_']">
+                    <xsl:if test="@key2[. = 'parl_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(174,0,174);">parl_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='pers']">
+                    <xsl:if test="@key2[. = 'pers']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,0);">PERS</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='pers_']">
+                    <xsl:if test="@key2[. = 'pers_']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,0);">PERS_</span>&#160;</i>
                         </sup>
                     </xsl:if>
-                    <xsl:if test="@key2[.='sour']">
+                    <xsl:if test="@key2[. = 'sour']">
                         <sup>
                             <i>
                                 <span style="color:rgb(0,0,0);">SOUR</span>&#160;</i>
@@ -776,7 +806,7 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template match="seg">
-        <xsl:if test="@rend[.='initialCapital']">
+        <xsl:if test="@rend[. = 'initialCapital']">
             <xsl:choose>
                 <xsl:when test="*">
                     <span style="font-size:25px;">
@@ -788,19 +818,19 @@
                         <xsl:value-of select="."/>
                     </xsl:variable>
                     <xsl:choose>
-                        <xsl:when test="ancestor::p and substring($hstr, 1,1) != '„'">
+                        <xsl:when test="ancestor::p and substring($hstr, 1, 1) != '„'">
                             <span style="font-size:20px;">
                                 <xsl:value-of select="substring($hstr, 1, 1)"/>
                             </span>
                             <xsl:value-of select="substring($hstr, 2)"/>
                         </xsl:when>
-                        <xsl:when test="ancestor::lg and substring($hstr, 1,1) != '„'">
+                        <xsl:when test="ancestor::lg and substring($hstr, 1, 1) != '„'">
                             <span style="font-size:20px;">
                                 <xsl:value-of select="substring($hstr, 1, 1)"/>
                             </span>
                             <xsl:value-of select="substring($hstr, 2)"/>
                         </xsl:when>
-                        <xsl:when test="substring($hstr, 1,1) != '„'">
+                        <xsl:when test="substring($hstr, 1, 1) != '„'">
                             <span style="font-size:25px;">
                                 <xsl:value-of select="substring($hstr, 1, 1)"/>
                             </span>
@@ -818,86 +848,92 @@
             </xsl:choose>
         </xsl:if>
         <xsl:choose>
-            <xsl:when test="@rend[.='antiqua'] and ancestor::fw">
-                <span style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:10pt;">
+            <xsl:when test="@rend[. = 'antiqua'] and ancestor::fw">
+                <span
+                    style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:10pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='antiqua'] and ancestor::head">
-                <span style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:14pt;">
+            <xsl:when test="@rend[. = 'antiqua'] and ancestor::head">
+                <span
+                    style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:14pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='antiqua'] and ancestor::byline">
-                <span style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:14pt;">
+            <xsl:when test="@rend[. = 'antiqua'] and ancestor::byline">
+                <span
+                    style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:14pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='antiqua']">
-                <span style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:13pt;">
+            <xsl:when test="@rend[. = 'antiqua']">
+                <span
+                    style="background:rgb(224,224,224);font-family:'Times New Roman';font-size:13pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='bold']">
+            <xsl:when test="@rend[. = 'bold']">
                 <b>
                     <xsl:apply-templates/>
                 </b>
             </xsl:when>
-            <xsl:when test="@rend[.='gothic']">
+            <xsl:when test="@rend[. = 'gothic']">
                 <xsl:apply-templates/>
             </xsl:when>
-            <xsl:when test="@rend[.='italicised']">
+            <xsl:when test="@rend[. = 'italicised']">
                 <i>
                     <xsl:apply-templates/>
                 </i>
             </xsl:when>
-            <xsl:when test="@rend[.='spaced']">
+            <xsl:when test="@rend[. = 'spaced']">
                 <span style="color:rgb(0,0,255);letter-spacing:0.2em">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='smallCaps']">
+            <xsl:when test="@rend[. = 'smallCaps']">
                 <span style="font-variant:small-caps;font-size:12pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='sub']">
+            <xsl:when test="@rend[. = 'sub']">
                 <sub>
                     <span style="font-size:smaller;">
                         <xsl:apply-templates/>
                     </span>
                 </sub>
             </xsl:when>
-            <xsl:when test="@rend[.='sup']">
+            <xsl:when test="@rend[. = 'sup']">
                 <sup>
                     <span style="font-size:smaller;">
                         <xsl:apply-templates/>
                     </span>
                 </sup>
             </xsl:when>
-            <xsl:when test="@rend[.='underlined']">
+            <xsl:when test="@rend[. = 'underlined']">
                 <u>
                     <xsl:apply-templates/>
                 </u>
             </xsl:when>
-            <xsl:when test="@type[.='enum']">
+            <xsl:when test="@type[. = 'enum']">
                 <span style="color:rgb(221,111,0);">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='footer']">
+            <xsl:when test="@type[. = 'footer']">
                 <span style="margin-left:100px;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@type[.='header']">
+            <xsl:when test="@type[. = 'header']">
                 <xsl:choose>
-                    <xsl:when test="descendant::fw[@place='top_center'] and fw[@place='top_right']">
+                    <xsl:when
+                        test="descendant::fw[@place = 'top_center'] and fw[@place = 'top_right']">
                         <span style="margin-left:100px;">
                             <xsl:apply-templates/>
                         </span>
                     </xsl:when>
-                    <xsl:when test="descendant::fw[@place='top_right'][not(@place='top_center')]">
+                    <xsl:when
+                        test="descendant::fw[@place = 'top_right'][not(@place = 'top_center')]">
                         <span style="margin-left:380px;">
                             <xsl:apply-templates/>
                         </span>
@@ -909,13 +945,14 @@
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
-            <xsl:when test="@type[.='signature']">
+            <xsl:when test="@type[. = 'signature']">
                 <span style="background:chocolate">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@rend[.='blackletter']">
-                <span style="background:rgb(170,255,191);font-family:'Arial Unicode MS';font-size:12pt;">
+            <xsl:when test="@rend[. = 'blackletter']">
+                <span
+                    style="background:rgb(170,255,191);font-family:'Arial Unicode MS';font-size:12pt;">
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>

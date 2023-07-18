@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cmd="http://www.clarin.eu/cmd/" xmlns:utils="http://aac.ac.at/content_repository/utils" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0" exclude-result-prefixes="mods xlink xd utils">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:cmd="http://www.clarin.eu/cmd/"
+    xmlns:utils="http://aac.ac.at/content_repository/utils"
+    xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:fcs="http://clarin.eu/fcs/1.0"
+    xmlns:mods="http://www.loc.gov/mods/v3" xmlns:mets="http://www.loc.gov/METS/"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0"
+    exclude-result-prefixes="mods xlink xd utils">
     <xsl:import href="../commons_v2.xsl"/>
     <xsl:include href="../fcs/data2view_v2.xsl"/>
     <xd:doc scope="stylesheet">
-        <xd:desc> generate a generic html-view for individual parts of the project-mets file:  mods:projectDmd mets:structMap                
-            </xd:desc>
+        <xd:desc> generate a generic html-view for individual parts of the project-mets file:
+            mods:projectDmd mets:structMap </xd:desc>
     </xd:doc>
     <xsl:output method="xhtml" indent="yes"/>
     <xsl:variable name="title" select="''"/>
-    <xsl:variable name="internal-structure" select="//mets:structMap[@TYPE='internal']"/>
+    <xsl:variable name="internal-structure" select="//mets:structMap[@TYPE = 'internal']"/>
     <xsl:key name="mets-div" match="mets:div" use="@ID"/>
     <xsl:template name="continue-root">
-<!--    <xsl:template match="/">-->
+        <!--    <xsl:template match="/">-->
         <xsl:apply-templates>
             <xsl:with-param name="strict" select="true()"/>
         </xsl:apply-templates>
@@ -40,8 +46,8 @@
                     </xsl:variable>
                     <a class="link-info" href="#">Info</a>
                     <a class="link-cmdi" href="{$md-link-cmdi}">CMD</a>
-                    <a class="link-explain" href="{$link-explain}">Register</a>                    
-<!--                    <div class="div-after"/>-->
+                    <a class="link-explain" href="{$link-explain}">Register</a>
+                    <!--                    <div class="div-after"/>-->
                 </div>
             </div>
             <div class="data-view metadata">
@@ -63,7 +69,7 @@
     </xsl:template>
     <xsl:template match="mods:mods">
         <div class="projectDMD mdtype-mods">
-            <xsl:apply-templates select="*[not(local-name()='name')]"/>
+            <xsl:apply-templates select="*[not(local-name() = 'name')]"/>
             <xsl:if test="mods:name">
                 <div class="authors">
                     <h3>Authors:</h3>
@@ -74,7 +80,7 @@
             </xsl:if>
         </div>
     </xsl:template>
-    <xsl:template match="mods:language|mods:typeOfResource"/>
+    <xsl:template match="mods:language | mods:typeOfResource"/>
     <xsl:template match="mods:titleInfo">
         <h2>
             <xsl:value-of select="mods:title"/>
@@ -87,7 +93,9 @@
     </xsl:template>
     <xsl:template match="mods:name">
         <li>
-            <xsl:value-of select="concat(mods:namePart[@type='given'], ' ', mods:namePart[@type='family'], ' (', mods:role, ') ' )"/>
+            <xsl:value-of
+                select="concat(mods:namePart[@type = 'given'], ' ', mods:namePart[@type = 'family'], ' (', mods:role, ') ')"
+            />
         </li>
     </xsl:template>
     <xd:doc>
@@ -131,8 +139,8 @@
     <xsl:template match="mets:div">
         <xsl:variable name="type" select="@TYPE"/>
         <xsl:choose>
-            <xsl:when test="$type='resource'">
-                <xsl:variable name="link" select="utils:formURL('get-data','html',@CONTENTIDS)"/>
+            <xsl:when test="$type = 'resource'">
+                <xsl:variable name="link" select="utils:formURL('get-data', 'html', @CONTENTIDS)"/>
                 <div class="{$type}">
                     <h3>
                         <a href="{$link}">
@@ -142,9 +150,10 @@
                     <xsl:apply-templates/>
                 </div>
             </xsl:when>
-            <xsl:when test="$type='chapter'">
+            <xsl:when test="$type = 'chapter'">
                 <!-- take resource-id + the id of the starting fragment as link -->
-                <xsl:variable name="link" select="utils:formURL('get-data','html',mets:fptr/mets:area/@BEGIN)"/>
+                <xsl:variable name="link"
+                    select="utils:formURL('get-data', 'html', mets:fptr/mets:area/@BEGIN)"/>
                 <div class="{$type}">
                     <a href="{$link}">
                         <xsl:value-of select="@LABEL"/>
@@ -152,8 +161,8 @@
                     <xsl:apply-templates/>
                 </div>
             </xsl:when>
-            <xsl:when test="$type='resourcefragment'">
-                <xsl:variable name="link" select="utils:formURL('get-data','html',@ID)"/>
+            <xsl:when test="$type = 'resourcefragment'">
+                <xsl:variable name="link" select="utils:formURL('get-data', 'html', @ID)"/>
                 <div class="{$type}">
                     <a href="{$link}">
                         <xsl:value-of select="@LABEL"/>
@@ -172,6 +181,6 @@
         </xd:desc>
     </xd:doc>
     <xsl:template name="getTitle">
-        <xsl:value-of select="(.//cmd:Title,.//cmd:Name)[1]"/>
+        <xsl:value-of select="(.//cmd:Title, .//cmd:Name)[1]"/>
     </xsl:template>
 </xsl:stylesheet>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:utils="http://aac.ac.at/corpus_shell/utils" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://aac.ac.at/corpus_shell/dataset" xmlns:exsl="http://exslt.org/common" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="exsl xs xd utils ds" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:utils="http://aac.ac.at/corpus_shell/utils" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:ds="http://aac.ac.at/corpus_shell/dataset" xmlns:exsl="http://exslt.org/common"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="exsl xs xd utils ds"
+    version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -31,36 +36,44 @@
     <xsl:variable name="number-format-plain">0,##</xsl:variable>
     <xd:doc>
         <xd:desc>
-            <xd:p>convenience format-number function, 
-                if empty -&gt; 0, else if not a number return the string</xd:p>
+            <xd:p>convenience format-number function, if empty -&gt; 0, else if not a number return
+                the string</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:function name="utils:format-number">
         <xsl:param name="number"/>
         <xsl:param name="pattern"/>
-        <xsl:value-of select="             if (xs:string($number)='' or number($number) =0) then 0 else             if(number($number)=number($number)) then format-number($number,$pattern)              else $number"/>
+        <xsl:value-of select="
+                if (xs:string($number) = '' or number($number) = 0) then
+                    0
+                else
+                    if (number($number) = number($number)) then
+                        format-number($number, $pattern)
+                    else
+                        $number"/>
     </xsl:function>
-    
-    
+
+
     <!-- taken from cmd2graph.xsl -> smc_functions.xsl -->
     <xsl:function name="utils:normalize">
         <xsl:param name="value"/>
-        <xsl:value-of select="translate($value,'*/-.'',$@={}:[]()#&gt;&lt; ','XZ__')"/>
+        <xsl:value-of select="translate($value, '*/-.'',$@={}:[]()#&gt;&lt; ', 'XZ__')"/>
     </xsl:function>
-    
+
     <xsl:function name="utils:dataset-key">
-        <xsl:param name="dataset" ></xsl:param>
+        <xsl:param name="dataset"/>
         <!-- this has to be in sync with  <xsl:template match="ds:dataset" mode="data2table"> in dataset2table.xsl -->
-        <xsl:value-of select="concat(utils:normalize($dataset/(@name,@key,@label)[1] ),$dataset/position())"/>
+        <xsl:value-of
+            select="concat(utils:normalize($dataset/(@name, @key, @label)[1]), $dataset/position())"/>
         <!--                <a href="#dataset-{@key}" ><xsl:value-of select="(@label,@key)[1]"></xsl:value-of></a> | -->
-        
+
     </xsl:function>
     <xd:doc>
         <xd:desc>
             <xd:p>inverts the dataset, i.e. labels will get dataseries and vice versa</xd:p>
             <xd:p>needed mainly for AreaChart display.</xd:p>
-            <xd:p>tries to cater for inconsistent structure (@key, @name, @label ...)
-            once all data is harmonized (according to dataset.xsd), we can get rid of it</xd:p>
+            <xd:p>tries to cater for inconsistent structure (@key, @name, @label ...) once all data
+                is harmonized (according to dataset.xsd), we can get rid of it</xd:p>
         </xd:desc>
         <xd:param name="dataset"/>
     </xd:doc>
@@ -79,17 +92,18 @@
                         <xsl:if test="@key">
                             <xsl:attribute name="key" select="@key"/>
                         </xsl:if>
-                        <xsl:value-of select="(@name, @label ,@key)[1]"/>
+                        <xsl:value-of select="(@name, @label, @key)[1]"/>
                     </ds:label>
                 </xsl:for-each>
             </ds:labels>
             <xsl:for-each select="ds:labels/ds:label">
                 <xsl:variable name="curr_label_old" select="(@key, text())[1]"/>
                 <ds:dataseries key="{$curr_label_old}" label="{text()}">
-                    <xsl:for-each select="$dataset//ds:value[$curr_label_old=@key or $curr_label_old=@label]">
+                    <xsl:for-each
+                        select="$dataset//ds:value[$curr_label_old = @key or $curr_label_old = @label]">
                         <ds:value key="{(../@name, ../@label,../@key)[not(.='')][1]}">
                             <!-- copy other (value) attributes, but not the key or label -->
-                            <xsl:copy-of select="@*[not(.='')][not(name()=('key','label'))]"/>
+                            <xsl:copy-of select="@*[not(. = '')][not(name() = ('key', 'label'))]"/>
                             <!-- formatted="{@formatted}"
                 <xsl:if test="../@type"><xsl:attribute name="type" select="../@type"></xsl:attribute></xsl:if>-->
                             <xsl:value-of select="."/>

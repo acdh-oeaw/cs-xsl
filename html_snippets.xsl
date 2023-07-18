@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sru="http://www.loc.gov/zing/srw/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="1.0" exclude-result-prefixes="xs sru fcs">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sru="http://www.loc.gov/zing/srw/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fcs="http://clarin.eu/fcs/1.0"
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="1.0"
+    exclude-result-prefixes="xs sru fcs">
     <xsl:import href="params.xsl"/>
     <xd:doc scope="stylesheet">
         <xd:desc>pieces of html wrapped in templates, to be reused by other stylesheets
-            <xd:p>History:
-            <xd:ul>
-                    <xd:li>2011-12-05: created by:"vr": copied from cr/html_snippets reworked back to xslt 1.0</xd:li>
+                <xd:p>History: <xd:ul>
+                    <xd:li>2011-12-05: created by:"vr": copied from cr/html_snippets reworked back
+                        to xslt 1.0</xd:li>
                 </xd:ul>
             </xd:p>
         </xd:desc>
     </xd:doc>
     <xd:doc>
-        <xd:desc>Standard header for the html page
-            <xd:p>
+        <xd:desc>Standard header for the html page <xd:p>
                 <xd:ul>
                     <xd:li>Sets the charset to UTF-8</xd:li>
                     <xd:li>includes a customized stylesheet based on jQuery-ui 1.8.5</xd:li>
@@ -21,8 +24,7 @@
                     <xd:li>includes jQuery 1.6.2 (???!)</xd:li>
                 </xd:ul>
             </xd:p>
-            <xd:p>
-                TODO: what about htmljspage and jquery.treeview css/js? Enable it? Toss it?
+            <xd:p> TODO: what about htmljspage and jquery.treeview css/js? Enable it? Toss it?
             </xd:p>
         </xd:desc>
     </xd:doc>
@@ -31,27 +33,26 @@
             <xsl:value-of select="$title"/>
         </title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link href="{$scripts_url}style/jquery/clarindotblue/jquery-ui-1.8.5.custom.css" type="text/css" rel="stylesheet"/>
-<!-- cmds-ui.csdeprecated:        <link href="{$scripts_url}style/cmds-ui.css" type="text/css" rel="stylesheet"/>-->
+        <link href="{$scripts_url}style/jquery/clarindotblue/jquery-ui-1.8.5.custom.css"
+            type="text/css" rel="stylesheet"/>
+        <!-- cmds-ui.csdeprecated:        <link href="{$scripts_url}style/cmds-ui.css" type="text/css" rel="stylesheet"/>-->
         <link href="{$scripts_url}css/cr.css" type="text/css" rel="stylesheet"/>
         <script type="text/javascript" src="{$scripts_url}js/jquery/jquery-1.6.2.js"/>
         <script type="text/javascript" src="{$scripts_url}js/jquery/jquery.tablesorter.js"/>
-        
+
         <!--        <xsl:if test="contains($format,'htmljspage')">
             <link href="{$base_dir}/style/jquery/jquery-treeview/jquery.treeview.css" rel="stylesheet"/>        
             </xsl:if>-->
     </xsl:template>
     <xd:doc>
-        <xd:desc>A header visible for the user
-            <xd:p>
-                Shows the site's name, a logo and and the contents of top-menu.
-            </xd:p>
+        <xd:desc>A header visible for the user <xd:p> Shows the site's name, a logo and and the
+                contents of top-menu. </xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:template name="page-header">
         <xsl:variable name="logo_link">
             <xsl:choose>
-                <xsl:when test="not($site_url='')">
+                <xsl:when test="not($site_url = '')">
                     <xsl:value-of select="$site_url"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -94,7 +95,7 @@
         <div id="top-menu">
             <a href="{$link_xml}">XML</a>
         </div>
-        
+
         <!--<div id="user">            
         <xsl:choose>
                 <xsl:when test="contains($format,'htmljspage')">
@@ -121,17 +122,15 @@
         </div>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides query controls
-        <xd:p>Note: This is included in the operation specific parts of the style sheet and htmljs pages.</xd:p>
+        <xd:desc>Provides query controls <xd:p>Note: This is included in the operation specific
+                parts of the style sheet and htmljs pages.</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:template name="query-input">
-    
-	<!-- QUERYSEARCH - BLOCK -->
+
+        <!-- QUERYSEARCH - BLOCK -->
         <div class="cmds-ui-block init-show" id="querysearch">
-            <div class="header ui-widget-header ui-state-default ui-corner-top">
-                Search
-            </div>
+            <div class="header ui-widget-header ui-state-default ui-corner-top"> Search </div>
             <div class="content" id="query-input">
                 <!-- fill form@action with <xsl:call-template name="formURL"/> will not work, 
                         because the parameter have to be encoded as input-elements  not in the form-url  
@@ -146,17 +145,18 @@
                     <label>Context</label>
                     <!--<xsl:call-template name="contexts-select"/>-->
                     <br/>
-<!--                    <div id="main-query" >-->
-                    <input type="text" id="input-simplequery" name="query" value="{$q}" class="queryinput active"/>
-<!--                                <div id="searchclauselist" class="queryinput inactive"/>-->
-                       <!--     </td>
+                    <!--                    <div id="main-query" >-->
+                    <input type="text" id="input-simplequery" name="query" value="{$q}"
+                        class="queryinput active"/>
+                    <!--                                <div id="searchclauselist" class="queryinput inactive"/>-->
+                    <!--     </td>
                             <td>
                        -->
                     <input type="submit" value="submit" id="submit-query"/>
-                                <!--<br/>-->
-                                <!--<span id="switch-input" class="cmd"/>
+                    <!--<br/>-->
+                    <!--<span id="switch-input" class="cmd"/>
                                 <label>Complex query</label>-->
-                          <!--  </td>
+                    <!--  </td>
                         </tr>
                         <tr>
                             <td valign="top">                                    
@@ -176,7 +176,8 @@
         </div>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides information to the user about the position in a search response that spans multiple pages</xd:desc>
+        <xd:desc>Provides information to the user about the position in a search response that spans
+            multiple pages</xd:desc>
     </xd:doc>
     <xsl:template name="result-paging">
         <span class="label">from:</span>
@@ -192,7 +193,8 @@
             <input type="text" name="maximumRecords" class="value maximum_records paging-input">
                 <xsl:attribute name="value">
                     <xsl:choose>
-                        <xsl:when test="number($numberOfRecords) &gt; 0 and number($numberOfRecords) &lt; number($maximumRecords)">
+                        <xsl:when
+                            test="number($numberOfRecords) &gt; 0 and number($numberOfRecords) &lt; number($maximumRecords)">
                             <xsl:value-of select="$numberOfRecords"/>
                         </xsl:when>
                         <xsl:otherwise>
@@ -205,13 +207,16 @@
         <input type="submit" value="" class="cmd cmd_reload"/>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides controls for going forward and back in searches that span multiple pages</xd:desc>
+        <xd:desc>Provides controls for going forward and back in searches that span multiple
+            pages</xd:desc>
     </xd:doc>
     <xsl:template name="prev-next">
         <xsl:variable name="prev_startRecord">
             <xsl:choose>
                 <xsl:when test="number($startRecord) - number($maximumRecords) &gt; 0">
-                    <xsl:value-of select="format-number(number($startRecord) - number($maximumRecords),'#')"/>
+                    <xsl:value-of
+                        select="format-number(number($startRecord) - number($maximumRecords), '#')"
+                    />
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="1"/>
@@ -220,11 +225,14 @@
         </xsl:variable>
         <xsl:variable name="next_startRecord">
             <xsl:choose>
-                <xsl:when test="number($startRecord) + number($maximumRecords) &gt; number(numberOfRecords)">
+                <xsl:when
+                    test="number($startRecord) + number($maximumRecords) &gt; number(numberOfRecords)">
                     <xsl:value-of select="$startRecord"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="format-number(number($startRecord) + number($maximumRecords),'#')"/>
+                    <xsl:value-of
+                        select="format-number(number($startRecord) + number($maximumRecords), '#')"
+                    />
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -244,7 +252,9 @@
             </xsl:call-template>
         </xsl:variable>
         <xsl:variable name="next-disabled">
-            <xsl:if test="number($startRecord) + number($maximumRecords) &gt;= number(numberOfRecords)">disabled</xsl:if>
+            <xsl:if
+                test="number($startRecord) + number($maximumRecords) &gt;= number(numberOfRecords)"
+                >disabled</xsl:if>
         </xsl:variable>
         <span class="result-navigation prev-next">
             <a class="internal prev {$prev-disabled}" href="{$link_prev}">
@@ -256,10 +266,11 @@
         </span>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides a querylistblock HTML div element which is manipulated by JavaScript</xd:desc>
+        <xd:desc>Provides a querylistblock HTML div element which is manipulated by
+            JavaScript</xd:desc>
     </xd:doc>
     <xsl:template name="query-list">
-<!-- QUERYLIST BLOCK -->
+        <!-- QUERYLIST BLOCK -->
         <div id="querylistblock" class="cmds-ui-block">
             <div class="header ui-widget-header ui-state-default ui-corner-top">
                 <span>QUERYLIST</span>
@@ -268,7 +279,8 @@
         </div>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides a detailblock HTML div element which is manipulated by JavaScript</xd:desc>
+        <xd:desc>Provides a detailblock HTML div element which is manipulated by
+            JavaScript</xd:desc>
     </xd:doc>
     <xsl:template name="detail-space">
         <div id="detailblock" class="cmds-ui-block">
@@ -279,7 +291,8 @@
         </div>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides a public-space HTML div element which is manipulated by JavaScript</xd:desc>
+        <xd:desc>Provides a public-space HTML div element which is manipulated by
+            JavaScript</xd:desc>
     </xd:doc>
     <xsl:template name="public-space">
         <div id="public-space" class="cmds-ui-block">
@@ -290,7 +303,8 @@
         </div>
     </xsl:template>
     <xd:doc>
-        <xd:desc>Provides HTML elements for a Personal Workspace which is manipulated by JavaScript</xd:desc>
+        <xd:desc>Provides HTML elements for a Personal Workspace which is manipulated by
+            JavaScript</xd:desc>
     </xd:doc>
     <xsl:template name="user-space">
         <div class="cmds-ui-block init-show" id="user-space">
@@ -301,7 +315,7 @@
                 <div id="userquerysets">
                     <label>Querysets</label>
                     <select id="qts_select"/>
-				<!--  <button id="qts_add" class="cmd cmd_add" >Add</button> -->
+                    <!--  <button id="qts_add" class="cmd cmd_add" >Add</button> -->
                     <span id="qts_add" class="cmd cmd_add"/>
                     <span id="qts_delete" class="cmd cmd_del"/>
                 </div>

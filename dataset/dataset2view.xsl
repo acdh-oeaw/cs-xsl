@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:utils="http://aac.ac.at/corpus_shell/utils" xmlns:ds="http://aac.ac.at/corpus_shell/dataset" xmlns:exsl="http://exslt.org/common" exclude-result-prefixes="exsl utils ds" version="1.0" extension-element-prefixes="exsl">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:utils="http://aac.ac.at/corpus_shell/utils"
+    xmlns:ds="http://aac.ac.at/corpus_shell/dataset" xmlns:exsl="http://exslt.org/common"
+    exclude-result-prefixes="exsl utils ds" version="1.0" extension-element-prefixes="exsl">
     <xsl:import href="solr-utils.xsl"/>
     <xsl:import href="dataset2table.xsl"/>
     <xsl:import href="dataset2google-json.xsl"/>
@@ -7,17 +11,15 @@
     <xd:doc xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" scope="stylesheet">
         <xd:desc>
             <xd:p>
-                <xd:b>Created on:</xd:b>  2013-01-15</xd:p>
+                <xd:b>Created on:</xd:b> 2013-01-15</xd:p>
             <xd:p>
                 <xd:b>Author:</xd:b> matej</xd:p>
             <xd:p>based on amc.xsl</xd:p>
             <xd:p>from amc views it shall only render the dataset</xd:p>
-            <xd:p>to be used alone?
-                or who provides the html-boilerplate </xd:p>
+            <xd:p>to be used alone? or who provides the html-boilerplate </xd:p>
             <xd:p>expects data as dataset (dataset.xsd)</xd:p>
             <xd:p>it is displayed as separate table and chart.</xd:p>
-            <xd:p>Example:                
-                <xd:pre>
+            <xd:p>Example: <xd:pre>
  &lt;dataseries name="haus"&gt;
    &lt;value label="all" 
           formatted="1.153.332" 
@@ -30,18 +32,19 @@
             </xd:p>
         </xd:desc>
     </xd:doc>
-    <xsl:output method="html" indent="yes" omit-xml-declaration="no" media-type="text/html; charset=UTF-8" encoding="utf-8"/>
+    <xsl:output method="html" indent="yes" omit-xml-declaration="no"
+        media-type="text/html; charset=UTF-8" encoding="utf-8"/>
     <xsl:template name="continue-root">
         <div>
             <!--<xsl:call-template name="callback-header-dataset"></xsl:call-template>-->
             <xsl:apply-templates select="descendant-or-self::ds:dataset">
-<!--            datasets with less categories come first-->
+                <!--            datasets with less categories come first-->
                 <xsl:sort select="count(ds:labels/ds:label)" data-type="number" order="ascending"/>
             </xsl:apply-templates>
         </div>
     </xsl:template>
 
-<!--
+    <!--
     <xsl:template match="result" mode="record-data">
 <!-\-        <xsl:call-template name="callback-header-dataset"></xsl:call-template>-\->
         
@@ -55,26 +58,29 @@
 -->
     <xd:doc xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl">
         <xd:desc>
-            <xd:p>invokes appropriate template (<xd:ref name="pivot2data" type="template"/> or <xd:ref name="qx2data" type="template"/>) to generate a unified internal representation of the data 
-                 (<xd:ref>dataset</xd:ref> nodeset in the <xd:ref>chart-data</xd:ref> variable), creates the html-boilerplate
-                and calls the templates to produce the table and chart representation of the data.</xd:p>
+            <xd:p>invokes appropriate template (<xd:ref name="pivot2data" type="template"/> or
+                    <xd:ref name="qx2data" type="template"/>) to generate a unified internal
+                representation of the data (<xd:ref>dataset</xd:ref> nodeset in the
+                    <xd:ref>chart-data</xd:ref> variable), creates the html-boilerplate and calls
+                the templates to produce the table and chart representation of the data.</xd:p>
         </xd:desc>
     </xd:doc>
     <xsl:template match="ds:dataset">
         <xsl:variable name="corrected-dataset">
             <xsl:apply-templates select="." mode="correct"/>
         </xsl:variable>
-<!--            <xsl:apply-templates  mode="query-input"/>-->
-<!--            <xsl:copy-of select="$corrected-dataset"/>-->
-        <xsl:variable name="dataset-name" select="concat(utils:normalize(@name),position())"/>
-        <xsl:if test="contains($parts,'chart')">
+        <!--            <xsl:apply-templates  mode="query-input"/>-->
+        <!--            <xsl:copy-of select="$corrected-dataset"/>-->
+        <xsl:variable name="dataset-name" select="concat(utils:normalize(@name), position())"/>
+        <xsl:if test="contains($parts, 'chart')">
             <div class="infovis-wrapper">
                 <div id="infovis-navi-{$dataset-name}">
-<!--                        <a onclick="drawChart({position() - 1})" ><xsl:value-of select="@name"/></a>-->
-                    
-<!--                    <a onclick="toggleStacked();" >stacked</a>-->
-<!--                    <a onclick="toggleLayout('{$dataset-name}');">layout</a>-->
-                    <select onchange="changeLayout('{$dataset-name}',$(this).val())" name="select-layout-{$dataset-name}" class="select-layout">
+                    <!--                        <a onclick="drawChart({position() - 1})" ><xsl:value-of select="@name"/></a>-->
+
+                    <!--                    <a onclick="toggleStacked();" >stacked</a>-->
+                    <!--                    <a onclick="toggleLayout('{$dataset-name}');">layout</a>-->
+                    <select onchange="changeLayout('{$dataset-name}',$(this).val())"
+                        name="select-layout-{$dataset-name}" class="select-layout">
                         <option value="pie">pie</option>
                         <option value="column">column</option>
                         <option value="bar">bar</option>
@@ -89,13 +95,13 @@
                 <xsl:with-param name="dataset-name" select="$dataset-name"/>
             </xsl:call-template>
         </xsl:if>
-        <xsl:if test="contains($parts,'table')">
-                <!--<form id="filter-form">
+        <xsl:if test="contains($parts, 'table')">
+            <!--<form id="filter-form">
                     <input type="text" id="filter" />
                 </form>-->
             <xsl:apply-templates select="$corrected-dataset" mode="data2table">
                 <xsl:with-param name="dataset-name" select="$dataset-name"/>
-                    <!--                    <xsl:with-param name="data" select="$chart-data"></xsl:with-param>-->
+                <!--                    <xsl:with-param name="data" select="$chart-data"></xsl:with-param>-->
             </xsl:apply-templates>
         </xsl:if>
     </xsl:template>
@@ -106,11 +112,12 @@
         </xsl:copy>
     </xsl:template>
     <xsl:template match="ds:dataseries" mode="correct">
-        <xsl:variable name="q" select="ancestor::result/lst[@name='params']/str[@name='q']"/>
-<!--        <xsl:variable name="qkey" select="ancestor::result/lst[@name='params']/str[@name='qkey']"/>-->
-        <xsl:variable name="qkey" select="normalize-space(ancestor::result/lst[@name='params']/str[@name='qkey'])"/>
+        <xsl:variable name="q" select="ancestor::result/lst[@name = 'params']/str[@name = 'q']"/>
+        <!--        <xsl:variable name="qkey" select="ancestor::result/lst[@name='params']/str[@name='qkey']"/>-->
+        <xsl:variable name="qkey"
+            select="normalize-space(ancestor::result/lst[@name = 'params']/str[@name = 'qkey'])"/>
         <xsl:copy>
-        <!--    meanwhile @name should already have the correct qkey
+            <!--    meanwhile @name should already have the correct qkey
             <xsl:choose>
                 <xsl:when test="@type='reldata' and $qkey">
                     <xsl:attribute name="name" select="$qkey"/>
@@ -138,34 +145,52 @@
         <xsl:call-template name="callback-header-dataset"/>
     </xsl:template>
     <xsl:template name="callback-header-dataset">
-        <link rel="stylesheet" type="text/css" href="{concat($scripts-dir, 'style/jquery.ui.resizable.css')}"/>
-        <link rel="stylesheet" type="text/css" href="{concat($scripts-dir, 'style/jquery.ui.all.css')}"/>
-                <!--
+        <link rel="stylesheet" type="text/css"
+            href="{concat($scripts-dir, 'style/jquery.ui.resizable.css')}"/>
+        <link rel="stylesheet" type="text/css"
+            href="{concat($scripts-dir, 'style/jquery.ui.all.css')}"/>
+        <!--
                   	<xsl:call-template name="chart-jit" >
                         <xsl:with-param name="facet-list" select="//lst[@name='facet_fields']/lst[1]"></xsl:with-param>
                   	</xsl:call-template>
                 -->
         <style type="text/css">
-        table { border-collapse:collapse;  border:1px solid grey }
-        td {padding: 3px; border:1px solid grey}
-        div.infovis-wrapper {border: 1px solid grey; margin: 20px; padding: 5px; height:350px; width:700px;}
-        .infovis {height: 90%; width: 100%;}
-        .value { text-align: right; }
-        </style>
+            table {
+                border-collapse: collapse;
+                border: 1px solid grey
+            }
+            td {
+                padding: 3px;
+                border: 1px solid grey
+            }
+            div.infovis-wrapper {
+                border: 1px solid grey;
+                margin: 20px;
+                padding: 5px;
+                height: 350px;
+                width: 700px;
+            }
+            .infovis {
+                height: 90%;
+                width: 100%;
+            }
+            .value {
+                text-align: right;
+            }</style>
         <script type="text/javascript" src="{concat($scripts-dir, 'js/jquery/jquery.min.js')}"/>
         <script type="text/javascript" src="{concat($scripts-dir, 'js/jquery/jquery-ui.min.js')}"/>
-        
+
         <!--currently not used
             <xsl:if test="contains($parts,'table')">
             <script type="text/javascript" src="{concat($scripts-dir, 'js/jquery/jquery.tablesorter.js')}"/>
             <script type="text/javascript" src="{concat($scripts-dir, 'js/jquery/jquery.uitablefilter.js')}"/>
         </xsl:if>-->
-     
-     <!-- it would be nicer, if this is in chart-xsl, but how to call it in a generic way -->
-        <xsl:if test="contains($parts,'chart')">
+
+        <!-- it would be nicer, if this is in chart-xsl, but how to call it in a generic way -->
+        <xsl:if test="contains($parts, 'chart')">
             <xsl:call-template name="callback-header-chart"/>
         </xsl:if>
-        
+
         <!--   <script type="text/javascript" src="{concat($scripts-dir, 'js/amc.js')}"></script>-->
     </xsl:template>
 </xsl:stylesheet>

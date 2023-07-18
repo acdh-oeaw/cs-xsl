@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
     <!-- 
         <purpose> generate a html-view for the tests by the testing-module</purpose>
         <params>
@@ -49,7 +50,11 @@
             </td>
             <td>
                 <xsl:value-of select="task"/>
-                <span>[<xsl:value-of select="if (xs:string(@pass)='true') then 'passed' else 'failed' "/>]</span>
+                <span>[<xsl:value-of select="
+                            if (xs:string(@pass) = 'true') then
+                                'passed'
+                            else
+                                'failed'"/>]</span>
             </td>
         </tr>
         <xsl:if test="result">
@@ -63,9 +68,10 @@
     </xsl:template>
     <xsl:template match="testrun">
         <div>
-            <xsl:copy-of select="(queryset|info)/h2"/>
-            <div class="note">duration: <xsl:value-of select="@duration"/>; on: <xsl:value-of select="substring(@on,1,10)"/>; </div>
-            <xsl:apply-templates select="(queryset/*|info/*|TestSet)"/>
+            <xsl:copy-of select="(queryset | info)/h2"/>
+            <div class="note">duration: <xsl:value-of select="@duration"/>; on: <xsl:value-of
+                    select="substring(@on, 1, 10)"/>; </div>
+            <xsl:apply-templates select="(queryset/* | info/* | TestSet)"/>
         </div>
     </xsl:template>
     <xsl:template match="diagnostics">
@@ -77,9 +83,9 @@
         </div>
     </xsl:template>
     <xsl:template match="h2"/>
-    <xsl:template match="*|@*">
+    <xsl:template match="* | @*">
         <xsl:copy>
-            <xsl:apply-templates select="*|@*|text()"/>
+            <xsl:apply-templates select="* | @* | text()"/>
         </xsl:copy>
     </xsl:template>
     <xsl:template match="text()">
